@@ -35,8 +35,8 @@ class UserSeeder extends Seeder
         ]);
         
         $adminAbilities = Bouncer::ability()->firstOrCreate([
-            'name' => 'create-users',
-            'title' => 'Create new users',
+            'name' => 'manage-gymie',
+            'title' => 'super admin',
         ]);
         
         Bouncer::allow($admin)->to($adminAbilities);

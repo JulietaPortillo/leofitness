@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,14 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('app');
 });
 
 Route::get('/user', [UserController::class, 'show']);
+
+//Auth routes
+Route::group(['prefix' => 'auth'], function () {
+    Route::get('login', [AuthController::class, 'getLogin']);
+    Route::post('login', [AuthController::class, 'postLogin']);
+    Route::get('logout', [AuthController::class, 'getLogout']);
+});
