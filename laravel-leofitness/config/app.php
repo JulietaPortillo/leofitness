@@ -160,6 +160,7 @@ return [
          * Package Service Providers...
          */
         Trebol\Entrust\EntrustServiceProvider::class,
+        Laracasts\Flash\FlashServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -184,8 +185,12 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Auth' => Illuminate\Support\Facades\Auth::class,
+        'Flash' => Laracasts\Flash\Flash::class,
         'Utilities' => \App\Lubus\Utilities::class,
         'Entrust' => Trebol\Entrust\EntrustFacade::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ])->toArray(),
 
 ];

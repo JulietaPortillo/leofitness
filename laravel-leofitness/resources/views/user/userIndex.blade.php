@@ -1,3 +1,7 @@
+<?php
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AclController;
+?>
 @extends('app')
 
 @section('content')
@@ -7,7 +11,7 @@
         <div class="page-head bg-grey-100">
             @include('flash::message')
             <h1 class="page-title">Users</h1>
-            <a href="{{ action('AclController@createUser') }}" class="btn btn-primary active pull-right" role="button"> Add</a></h1>
+            <a href="{{ action([AclController::class, 'createUser']) }}" class="btn btn-primary active pull-right" role="button"> Add</a></h1>
         </div>
 
         <div class="container-fluid">
@@ -30,10 +34,10 @@
                                 <tbody>
 
                                 <tr>
-                                    @foreach ($users as $user)                                    
+                                    @foreach ($users as $user)
                                         <td class="text-center">{{ $user->name}}</td>
                                         <td class="text-center">{{ $user->email}}</td>
-                                        <td class="text-center">{{ $user->roleUser->role->name }}</td>
+                                        <td class="text-center">{{ $user->roleUser -> role -> name}}</td>
 
                                         <td class="text-center">
                                             <div class="btn-group">
@@ -44,7 +48,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li>
-                                                        <a href="{{ action('AclController@editUser',['id' => $user->id]) }}">
+                                                        <a href="{{ action([AclController::class, 'editUser'], ['id' => $user->id]) }}">
                                                             Edit details
                                                         </a>
                                                     </li>

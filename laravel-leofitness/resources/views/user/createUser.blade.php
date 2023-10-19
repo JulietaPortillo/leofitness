@@ -51,26 +51,6 @@
                                         {!! Form::select('status',array('1' => 'Active', '0' => 'InActive'),null,['class' => 'form-control selectpicker show-tick show-menu-arrow', 'id' => 'status']) !!}
                                     </div>
                                 </div>
-
-                                @if(isset($user) && $user->photo != "")
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            {!! Form::label('photo','Photo') !!}
-                                            {!! Form::file('photo',['class'=>'form-control', 'id' => 'photo']) !!}
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <img alt="staff photo" class="pull-right"
-                                             src="{{url('/images/100x100/'.constFilePrefix::StaffPhoto . $user->id .'.jpg') }}"/>
-                                    </div>
-                                @else
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            {!! Form::label('photo','Photo') !!}
-                                            {!! Form::file('photo',['class'=>'form-control', 'id' => 'photo']) !!}
-                                        </div>
-                                    </div>
-                                @endif
                             </div>
 
                             <div class="row">
@@ -99,7 +79,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <?php $roles = App\Role::where('id', '!=', '1')->lists('name', 'id'); ?>
+                                        <?php $roles = App\Models\Role::where('id', '!=', '1')->pluck('name', 'id'); ?>
                                         {!! Form::label('Role') !!}
                                         {!! Form::select('role_id',$roles,null,['class'=>'form-control selectpicker show-tick show-menu-arrow', 'id' => 'role_id']) !!}
                                     </div>

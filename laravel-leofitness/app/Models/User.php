@@ -9,11 +9,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Trebol\Entrust\Traits\EntrustUserTrait;
+use App\Lubus\constStatus;
 
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, EntrustUserTrait;
+    const InActive = 0;
+    const Active = 1;
+    const Archive = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -55,10 +59,10 @@ class User extends Authenticatable
     public function scopeExcludeArchive($query)
     {
         if (Auth::User()->id != 1) {
-            return $query->where('status', '!=', \constStatus::Archive)->where('id', '!=', 1);
+            return $query->where('status', '!=', self::Archive)->where('id', '!=', 1);
         }
 
-        return $query->where('status', '!=', \constStatus::Archive);
+        return $query->where('status', '!=', self::Archive);
     }
 
 }

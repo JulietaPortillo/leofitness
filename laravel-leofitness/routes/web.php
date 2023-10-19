@@ -5,6 +5,7 @@ use App\Http\Controllers\MembersController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\AclController;
 use App\Http\Middleware\Authenticate;
 
 /*
@@ -57,4 +58,35 @@ Route::group(['prefix' => 'members', 'middleware' => ['auth']], function () {
     Route::post('{id}/update', [MembersController::class, 'update']);
     Route::post('{id}/archive', [MembersController::class, 'archive']);
     //Route::get('{id}/transfer', ['middleware' => ['permission:manage-gymie|manage-enquiries|transfer-enquiry'], 'uses' => 'MembersController@transfer']);
+});
+
+//User Module with roles & permissions
+//User
+Route::group(['prefix' => 'user', 'middleware' => ['permission:manage-gymie|manage-users', 'auth']], function () {
+    Route::get('/', [AclController::class, 'userIndex']);
+    Route::get('create', [AclController::class, 'createUser']);
+    Route::post('/', [AclController::class, 'storeUser']);
+    Route::get('{id}/edit', [AclController::class, 'editUser']);
+    Route::post('{id}/update', [AclController::class, 'updateUser']);
+    Route::post('{id}/delete', [AclController::class, 'deleteUser']);
+});
+
+//Roles
+Route::group(['prefix' => 'user/role', 'middleware' => ['permission:manage-gymie|manage-users', 'auth']], function () {
+    Route::get('/', [AclController::class, 'roleIndex']);
+    Route::get('create', [AclController::class, 'createRole']);
+    Route::post('/', [AclController::class, 'storeRole']);
+    Route::get('{id}/edit', [AclController::class, 'editRole']);
+    Route::post('{id}/update', [AclController::class, 'updateRole']);
+    Route::post('{id}/delete', [AclController::class, 'deleteRole']);
+});
+
+//Permissions
+Route::group(['prefix' => 'user/permission', 'middleware' => ['auth', 'role:Gymie']], function () {
+    Route::get('/', [AclController::class, 'permissionIndex']);
+    Route::get('create', [AclController::class, 'createPermission']);
+    Route::post('/', [AclController::class, 'storePermission']);
+    Route::get('{id}/edit', [AclController::class, 'editPermission']);
+    Route::post('{id}/update', [AclController::class, 'updatePermission']);
+    Route::post('{id}/delete', [AclController::class, 'deletePermission'])->name('permission.delete');
 });

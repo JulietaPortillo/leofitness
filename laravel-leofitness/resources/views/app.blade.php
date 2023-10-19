@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AclController;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,7 +109,25 @@ use App\Http\Controllers\DashboardController;
                     </ul>
                 </li>
                 @endpermission
-               
+                @permission('manage-gymie')
+                <li class="nav-dropdown {{ Utilities::setActiveMenu('user*',true) }}">
+                    <a href="#">
+                        <i class="fa fa-users"></i> <span>Users</span>
+                    </a>
+                    <ul>
+                        <li class="{{ Utilities::setActiveMenu('user') }}"><a href="{{ action([AclController::class, 'userIndex']) }}"><i class="fa fa-upload"></i> All
+                                Users</a></li>
+                        <li class="{{ Utilities::setActiveMenu('user/create') }}"><a href="{{ action([AclController::class, 'createUser']) }}"><i class="fa fa-list"></i>
+                                Add new user</a></li>
+                        <li class="{{ Utilities::setActiveMenu('user/role') }}"><a href="{{ action([AclController::class, 'roleIndex']) }}"><i class="fa fa-list"></i>
+                                Roles</a></li>
+                        @role('Gymie')
+                        <li class="{{ Utilities::setActiveMenu('user/permission') }}"><a href="{{ action([AclController::class, 'permissionIndex']) }}"><i
+                                        class="fa fa-list"></i> Permissions</a></li>
+                        @endrole
+                    </ul>
+                </li>
+                @endpermission
             </ul>
         </div>
     </div>

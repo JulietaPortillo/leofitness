@@ -1,4 +1,5 @@
 <?php
+namespace App\Lubus;
 
 // Member Status
 class constStatus
