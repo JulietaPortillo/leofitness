@@ -5,7 +5,7 @@
     <div class="rightside bg-grey-100">
 
         <div class="container-fluid">
-            @can('manage-gymie')
+            @permission('manage-gymie')
             <!-- Stat Tile  -->
             <div class="row margin-top-10">
                 <!-- Total Members -->
@@ -38,11 +38,11 @@
                     <p>Colleccion</p>
                 </div>
             </div>
-            @endcan
+            @endpermission
 
             <!--Member Quick views -->
             <div class="row"> <!--Main Row-->
-                @can('manage-gymie')
+                @permission('manage-gymie')
                 <div class="col-lg-6">
                     <div class="panel">
                         <div class="panel-title">
@@ -84,9 +84,9 @@
                         </div>
                     </div>
                 </div>
-                @endcan
+                @endpermission
 
-                @can('test')
+                @permission('test')
                 <!--Enquiry Quick view Tabs-->
                 <div class="col-lg-6">
                     <div class="panel">
@@ -117,11 +117,11 @@
                         </div>
                     </div>
                 </div>
-                @endcan
+                @endpermission
             </div> <!--/Main row -->
 
 
-            @can(['manage-gymie','view-dashboard-expense-tab'])
+            @permission(['manage-gymie','view-dashboard-expense-tab'])
             <div class="row">
                 <!--Expense Quick view Tabs-->
                 <div class="col-lg-6">
@@ -153,10 +153,10 @@
                         </div>
                     </div>
                 </div>
-                @endcan
+                @endpermission
             </div>
 
-            @can(['manage-gymie','view-dashboard-charts'])
+            @permission(['manage-gymie','view-dashboard-charts'])
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel">
@@ -220,7 +220,7 @@
                     </div>
                 </div>
             </div>
-            @endcan
+            @endpermission
         </div>
     </div>
 @stop

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e897322d4886ddb0a33f48d10a2fbd1",
+    "content-hash": "83a5189d6cdfd2e20befc4227fb22dfd",
     "packages": [
         {
             "name": "brick/math",
@@ -2045,6 +2045,60 @@
                 }
             ],
             "time": "2023-06-21T14:59:35+00:00"
+        },
+        {
+            "name": "mitchbred/entrust",
+            "version": "2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MitchBred/entrust.git",
+                "reference": "515f32fb03cd9145af3196b5c5699d631cfd53f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MitchBred/entrust/zipball/515f32fb03cd9145af3196b5c5699d631cfd53f1",
+                "reference": "515f32fb03cd9145af3196b5c5699d631cfd53f1",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/cache": "^10.0.0",
+                "illuminate/console": "^10.0.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "illuminate/database": "^10.0.0",
+                "mockery/mockery": "^1.5.1",
+                "overtrue/phplint": "^9.0.3",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Trebol\\Entrust\\EntrustServiceProvider"
+                    ],
+                    "aliases": {
+                        "Entrust": "Trebol\\Entrust\\EntrustFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Trebol\\Entrust\\": "src/Entrust/"
+                },
+                "classmap": [
+                    "src/commands"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "This package provides a flexible way to add role-based permissions to Laravel and is a fork from Zizaco/entrust",
+            "support": {
+                "source": "https://github.com/MitchBred/entrust/tree/2.3"
+            },
+            "time": "2023-02-15T12:49:51+00:00"
         },
         {
             "name": "monolog/monolog",

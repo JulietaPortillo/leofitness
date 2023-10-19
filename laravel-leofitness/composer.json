@@ -10,6 +10,7 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "mitchbred/entrust": "^2.3",
         "silber/bouncer": "^1.0",
         "sofa/eloquence": "^0.1.0",
         "spatie/laravel-medialibrary": "^10.13"

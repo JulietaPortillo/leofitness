@@ -1,3 +1,6 @@
+<?php
+use App\Http\Controllers\DashboardController;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <!-- BEGIN HEAD -->
@@ -75,33 +78,37 @@
             <div class="title">Navegacion</div>
             <ul class="nav-sidebar">
                 <li class="{{ Utilities::setActiveMenu('dashboard*') }}">
+                <a href="{{ action([DashboardController::class, 'index']) }}">
+                        <i class="ion-home"></i> <span>Dashboard</span>
+                    </a>
                 </li>
 
-                @can(['manage-gymie','manage-enquiries','view-enquiry'])
+                @permission(['manage-gymie','manage-enquiries','view-enquiry'])
                 <li class="nav-dropdown {{ Utilities::setActiveMenu('enquiries*',true) }}">
                     <a href="#">
                         <i class="ion-ios-telephone"></i> <span>Enquiries</span>
                     </a>
                     <ul>
                         <li class="{{ Utilities::setActiveMenu('enquiries/all') }}"><a>All Enquiries</a></li>
-                        @can(['manage-gymie','manage-enquiries','add-enquiry'])
+                        @permission(['manage-gymie','manage-enquiries','add-enquiry'])
                         <li class="{{ Utilities::setActiveMenu('enquiries/create') }}"><a>Add Enquiry</a></li>
-                        @endcan
+                        @endpermission
                     </ul>
                 </li>
-                @endcan
+                @endpermission
 
-                @can('manage-gymie')
+                @permission('manage-gymie')
                 <li class="nav-dropdown {{ Utilities::setActiveMenu('members*',true) }}">
                     <a href="#">
                         <i class="ion-person-add"></i> <span>Miembros</span>
                     </a>
                     <ul>
-                        <li class="{{ Utilities::setActiveMenu('members/all') }}"><a href="{{ action('MembersController@index') }}">Todos los miembros</a></li>
+                        <li class="{{ Utilities::setActiveMenu('members/all') }}"><a>Todos los miembros</a></li>
                         
                     </ul>
                 </li>
-                @endcan
+                @endpermission
+               
             </ul>
         </div>
     </div>
