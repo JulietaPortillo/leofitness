@@ -12,7 +12,7 @@ use App\Http\Controllers\AclController;
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                            <strong>Ups!</strong>Ha ocurrido un error.<br><br>
                             <ul>
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
@@ -23,7 +23,7 @@ use App\Http\Controllers\AclController;
 
                     <div class="panel no-border">
                         <div class="panel-title bg-white no-border">
-                            <div class="panel-head">Enter Details of the Permission</div>
+                            <div class="panel-head">Ingrese los detalles del permiso</div>
                         </div>
 
                         {!! Form::open(['method' => 'POST', 'id' => 'permissionsform', 'route' => ['permission.update', $permission->id]]) !!}
@@ -32,28 +32,28 @@ use App\Http\Controllers\AclController;
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        {!! Form::label('name','Name') !!}
+                                        {!! Form::label('name','Identificador') !!}
                                         {!! Form::text('name',$permission->name,['class'=>'form-control', 'id' => 'name']) !!}
                                     </div>
                                 </div>
 
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        {!! Form::label('display_name','Display name') !!}
+                                        {!! Form::label('display_name','Nombre') !!}
                                         {!! Form::text('display_name',$permission->display_name,['class'=>'form-control', 'id' => 'display_name']) !!}
                                     </div>
                                 </div>
 
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        {!! Form::label('description','Description') !!}
+                                        {!! Form::label('description','Descripcion') !!}
                                         {!! Form::text('description',$permission->description,['class'=>'form-control', 'id' => 'description']) !!}
                                     </div>
                                 </div>
 
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        {!! Form::label('group_key','Group key') !!}
+                                        {!! Form::label('group_key','Grupo') !!}
                                         {!! Form::text('group_key',$permission->group_key,['class'=>'form-control', 'id' => 'group_key']) !!}
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@ use App\Http\Controllers\AclController;
                     <div class="row">
                         <div class="col-sm-2 pull-right">
                             <div class="form-group">
-                                {!! Form::submit('Update', ['class' => 'btn btn-primary pull-right']) !!}
+                                {!! Form::submit('Actualizar', ['class' => 'btn btn-primary pull-right']) !!}
                             </div>
                         </div>
                     </div>

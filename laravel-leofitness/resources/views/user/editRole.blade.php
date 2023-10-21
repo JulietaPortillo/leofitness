@@ -9,7 +9,7 @@
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                            <strong>Ups!</strong> Ha ocurrido un error.<br><br>
                             <ul>
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
@@ -20,7 +20,7 @@
 
                     <div class="panel no-border">
                         <div class="panel-title bg-white no-border">
-                            <div class="panel-head">Enter Details of the Role</div>
+                            <div class="panel-head">Ingrese los detalles del rol</div>
                         </div>
 
                         {!! Form::Open(['method' => 'POST','id' => 'rolesform','route' => ['role.update',$role->id]]) !!}
@@ -29,21 +29,21 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        {!! Form::label('name','Name') !!}
+                                        {!! Form::label('name','Identificador') !!}
                                         {!! Form::text('name',$role->name,['class'=>'form-control', 'id' => 'name']) !!}
                                     </div>
                                 </div>
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        {!! Form::label('display_name','Display name') !!}
+                                        {!! Form::label('display_name','Nombre') !!}
                                         {!! Form::text('display_name',$role->display_name,['class'=>'form-control', 'id' => 'display_name']) !!}
                                     </div>
                                 </div>
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        {!! Form::label('description','Description') !!}
+                                        {!! Form::label('description','Descripcion') !!}
                                         {!! Form::text('description',$role->description,['class'=>'form-control', 'id' => 'description']) !!}
                                     </div>
                                 </div>
@@ -53,7 +53,7 @@
 
                     <div class="panel no-border">
                         <div class="panel-title bg-white no-border">
-                            <div class="panel-head">Select permission</div>
+                            <div class="panel-head">Seleccione Permisos</div>
                         </div>
                         <div class="panel-body">
                             @foreach($permissions->groupBy('group_key') as $permission_group)
@@ -77,7 +77,7 @@
                     <div class="row">
                         <div class="col-sm-2 pull-right">
                             <div class="form-group">
-                                {!! Form::submit('Update', ['class' => 'btn btn-primary pull-right']) !!}
+                                {!! Form::submit('Actualizar', ['class' => 'btn btn-primary pull-right']) !!}
                             </div>
                         </div>
                     </div>

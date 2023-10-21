@@ -11,8 +11,8 @@ use App\Http\Controllers\AclController;
         <!-- BEGIN PAGE HEADING -->
         <div class="page-head bg-grey-100">
             @include('flash::message')
-            <h1 class="page-title">Permissions</h1>
-            <a href="{{ route('permission.create') }}" class="btn btn-primary active pull-right" role="button"> Add</a></h1>
+            <h1 class="page-title">Permisos</h1>
+            <a href="{{ route('permission.create') }}" class="btn btn-primary active pull-right" role="button"> Agregar</a></h1>
             
         </div>
 
@@ -27,10 +27,10 @@ use App\Http\Controllers\AclController;
                             <table id="staffs" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th class="text-center">Name</th>
-                                    <th class="text-center">Display name</th>
-                                    <th class="text-center">Description</th>
-                                    <th class="text-center">Actions</th>
+                                    <th class="text-center">Identificador</th>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Descripcion</th>
+                                    <th class="text-center">Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -58,15 +58,15 @@ use App\Http\Controllers\AclController;
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        <h4 class="modal-title">Confirm</h4>
+                                                        <h4 class="modal-title">Confirmar</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Are you sure you want to delete it?</p>
+                                                        <p>Estás seguro de que quieres eliminarlo?</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                     {!! Form::open(['route' => ['permission.delete', $permission->id], 'method' => 'POST', 'id' => 'deleteform-' . $permission->id]) !!}
-                                                        <input type="submit" class="btn btn-danger" value="Yes" id="btn-{{ $permission->id }}"/>
-                                                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                                        <input type="submit" class="btn btn-danger" value="Confirmar" id="btn-{{ $permission->id }}"/>
+                                                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
                                                         {!! Form::Close() !!}
                                                     </div>
                                                 </div>

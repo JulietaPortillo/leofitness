@@ -8,7 +8,7 @@
     <meta content="" name="description"/>
     <meta content="" name="author"/>
 
-    <title>leofitness - Login</title>
+    <title>Leofitness - Login</title>
 
     <!-- BEGIN CORE FRAMEWORK -->
     <link href="{{ URL::asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
@@ -38,7 +38,7 @@
         </div>
         @if (count($errors) > 0)
             <div class="alert alert-danger">
-                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                <strong>Ups!</strong> Hubo algunos problemas con tus credenciales.<br><br>
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>

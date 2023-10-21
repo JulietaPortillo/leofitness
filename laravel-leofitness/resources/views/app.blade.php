@@ -12,7 +12,7 @@ use App\Http\Controllers\AclController;
     <meta content="" name="description"/>
     <meta content="" name="author"/>
 
-    <title>Gymie</title>
+    <title>LeoFitness</title>
 
     <!-- BEGIN CORE FRAMEWORK -->
     <link href="{{ URL::asset('assets/plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet"/>
@@ -84,21 +84,7 @@ use App\Http\Controllers\AclController;
                     </a>
                 </li>
 
-                @permission(['manage-gymie','manage-enquiries','view-enquiry'])
-                <li class="nav-dropdown {{ Utilities::setActiveMenu('enquiries*',true) }}">
-                    <a href="#">
-                        <i class="ion-ios-telephone"></i> <span>Enquiries</span>
-                    </a>
-                    <ul>
-                        <li class="{{ Utilities::setActiveMenu('enquiries/all') }}"><a>All Enquiries</a></li>
-                        @permission(['manage-gymie','manage-enquiries','add-enquiry'])
-                        <li class="{{ Utilities::setActiveMenu('enquiries/create') }}"><a>Add Enquiry</a></li>
-                        @endpermission
-                    </ul>
-                </li>
-                @endpermission
-
-                @permission('manage-gymie')
+                @permission('Administrador')
                 <li class="nav-dropdown {{ Utilities::setActiveMenu('members*',true) }}">
                     <a href="#">
                         <i class="ion-person-add"></i> <span>Miembros</span>
@@ -109,22 +95,22 @@ use App\Http\Controllers\AclController;
                     </ul>
                 </li>
                 @endpermission
-                @permission('manage-gymie')
+                @permission('Administrador')
                 <li class="nav-dropdown {{ Utilities::setActiveMenu('user*',true) }}">
                     <a href="#">
-                        <i class="fa fa-users"></i> <span>Users</span>
+                        <i class="fa fa-users"></i> <span>Usuarios</span>
                     </a>
                     <ul>
-                        <li class="{{ Utilities::setActiveMenu('user') }}"><a href="{{ action([AclController::class, 'userIndex']) }}"><i class="fa fa-upload"></i> All
-                                Users</a></li>
+                        <li class="{{ Utilities::setActiveMenu('user') }}"><a href="{{ action([AclController::class, 'userIndex']) }}"><i class="fa fa-upload"></i> Todos los
+                                Usuarios</a></li>
                         <li class="{{ Utilities::setActiveMenu('user/create') }}"><a href="{{ action([AclController::class, 'createUser']) }}"><i class="fa fa-list"></i>
-                                Add new user</a></li>
+                                Agregar Nuevo</a></li>
                         <li class="{{ Utilities::setActiveMenu('user/role') }}"><a href="{{ action([AclController::class, 'roleIndex']) }}"><i class="fa fa-list"></i>
                                 Roles</a></li>
-                        @role('Gymie')
+                       
                         <li class="{{ Utilities::setActiveMenu('user/permission') }}"><a href="{{ action([AclController::class, 'permissionIndex']) }}"><i
-                                        class="fa fa-list"></i> Permissions</a></li>
-                        @endrole
+                                        class="fa fa-list"></i> Permisos</a></li>
+                        
                     </ul>
                 </li>
                 @endpermission

@@ -63,17 +63,17 @@ Route::group(['prefix' => 'members', 'middleware' => ['auth']], function () {
 
 //User Module with roles & permissions
 //User
-Route::group(['prefix' => 'user', 'middleware' => ['permission:manage-gymie|manage-users', 'auth']], function () {
+Route::group(['prefix' => 'user', 'middleware' => ['permission:Administrador', 'auth']], function () {
     Route::get('/', [AclController::class, 'userIndex']);
     Route::get('create', [AclController::class, 'createUser']);
     Route::post('/', [AclController::class, 'storeUser']);
-    Route::get('{id}/edit', [AclController::class, 'editUser']);
+    Route::get('{id}/edit', [AclController::class, 'editUser'])->name('user.edit');
     Route::post('{id}/update', [AclController::class, 'updateUser']);
     Route::post('{id}/delete', [AclController::class, 'deleteUser']);
 });
 
 //Roles
-Route::group(['prefix' => 'user/role', 'middleware' => ['permission:manage-gymie|manage-users', 'auth']], function () {
+Route::group(['prefix' => 'user/role', 'middleware' => ['permission:Administrador', 'auth']], function () {
     Route::get('/', [AclController::class, 'roleIndex']);
     Route::get('create', [AclController::class, 'createRole'])->name('role.create');
     Route::post('/', [AclController::class, 'storeRole']);
@@ -83,7 +83,7 @@ Route::group(['prefix' => 'user/role', 'middleware' => ['permission:manage-gymie
 });
 
 //Permissions
-Route::group(['prefix' => 'user/permission', 'middleware' => ['auth', 'role:Gymie']], function () {
+Route::group(['prefix' => 'user/permission', 'middleware' => ['permission:Administrador', 'auth']], function () {
     Route::get('/', [AclController::class, 'permissionIndex'])->name('permission.index');
     Route::get('create', [AclController::class, 'createPermission'])->name('permission.create');
     Route::post('/', [AclController::class, 'storePermission']);

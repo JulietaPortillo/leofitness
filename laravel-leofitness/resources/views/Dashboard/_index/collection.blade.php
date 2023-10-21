@@ -17,7 +17,7 @@
             <div class="clearfix"></div>
 
             <div class="pull-left">
-                <div class="display-block color-green-50 font-weight-600">Monthly Collection</div>
+                <div class="display-block color-green-50 font-weight-600">Ingresos Mensuales</div>
             </div>
         </div>
     </div>
