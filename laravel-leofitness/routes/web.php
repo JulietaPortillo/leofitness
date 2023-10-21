@@ -93,7 +93,7 @@ Route::group(['prefix' => 'user/permission', 'middleware' => ['permission:Admini
 });
 
 //settings
-Route::group(['prefix' => 'settings', 'middleware' => ['permission:manage-gymie|manage-settings', 'auth']], function () {
+Route::group(['prefix' => 'settings', 'middleware' => ['permission:Administrador', 'auth']], function () {
     Route::get('/', [SettingsController::class, 'show'])->name('settings.show');
     Route::get('edit', [SettingsController::class, 'edit'])->name('settings.edit');
     Route::post('save', [SettingsController::class, 'save'])->name('settings.save');

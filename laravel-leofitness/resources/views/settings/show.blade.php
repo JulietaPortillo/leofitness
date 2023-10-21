@@ -7,7 +7,7 @@
         <div class="page-head bg-grey-100 padding-top-15 no-padding-bottom">
             @include('flash::message')
             <h1 class="page-title">Configuracion</h1>
-            <a href="{{ route('settings.edit') }}" class="btn btn-primary active pull-right" role="button"><i class="ion-compose"></i> Edit</a></h1>
+            <a href="{{ route('settings.edit') }}" class="btn btn-primary active pull-right" role="button"><i class="ion-compose"></i> Editar</a></h1>
         </div>
 
         <div class="container-fluid">
@@ -24,21 +24,21 @@
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label>Gym Name</label>
+                                        <label>Nombre del Gimnasio</label>
                                         <p>{{ $settings['gym_name'] }}</p>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label>Fecha inicial</label>
+                                        <label>Fecha Inicial</label>
                                         <p>{{ $settings['financial_start'] }}</p>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label>Fecha final</label>
+                                        <label>Fecha Final</label>
                                         <p>{{ $settings['financial_end'] }}</p>
                                     </div>
                                 </div>
@@ -50,7 +50,7 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label>Direccion de gimnacio</label>
+                                                <label>Direccion del Gimnasio</label>
                                                 <p>{{ $settings['gym_address_1'] }}</p>
                                             </div>
                                         </div>
@@ -80,7 +80,7 @@
                                     <div class="row">   <!-- Inner row -->
                                         <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label>Identificador Prefix</label>
+                                                <label>Identificador del Recibo</label>
                                                 <p>{{ $settings['invoice_prefix'] }}</p>
                                             </div>
                                         </div>
@@ -101,7 +101,7 @@
 
                                         <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label>Modo de numeracion</label>
+                                                <label>Modo de Numeracion</label>
                                                 <p>{{ Utilities::getMode($settings['invoice_number_mode']) }}</p>
                                             </div>
                                         </div>
@@ -130,21 +130,21 @@
                                     <div class="row">     <!-- Inner row -->
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Member code prefix</label>
+                                                <label>Codigo de Miembro</label>
                                                 <p>{{ $settings['member_prefix'] }}</p>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Member last number</label>
+                                                <label>Ultimo numero del ID del Miembro</label>
                                                 <p>{{ $settings['member_last_number'] }}</p>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Member number mode</label>
+                                                <label>Modo de Numeracion</label>
                                                 <p>{{ Utilities::getMode($settings['member_number_mode']) }}</p>
                                             </div>
                                         </div>

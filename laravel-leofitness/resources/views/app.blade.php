@@ -115,10 +115,10 @@ use App\Http\Controllers\AclController;
                 </li>
                 @endpermission
 
-                @permission(['manage-gymie','manage-settings'])
+                @permission(['Administrador','manage-settings'])
                 <li class="{{ Utilities::setActiveMenu('settings*') }}">
                     <a href="{{ route('settings.show') }}">
-                        <i class="fa fa-cogs fa-2x"></i> <span>Settings</span>
+                        <i class="fa fa-cogs fa-2x"></i> <span>Configuracion</span>
                     </a>
                 </li>
                 @endpermission
