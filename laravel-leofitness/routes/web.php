@@ -74,19 +74,19 @@ Route::group(['prefix' => 'user', 'middleware' => ['permission:manage-gymie|mana
 //Roles
 Route::group(['prefix' => 'user/role', 'middleware' => ['permission:manage-gymie|manage-users', 'auth']], function () {
     Route::get('/', [AclController::class, 'roleIndex']);
-    Route::get('create', [AclController::class, 'createRole']);
+    Route::get('create', [AclController::class, 'createRole'])->name('role.create');
     Route::post('/', [AclController::class, 'storeRole']);
-    Route::get('{id}/edit', [AclController::class, 'editRole']);
+    Route::get('{id}/edit', [AclController::class, 'editRole'])->name('role.edit');
     Route::post('{id}/update', [AclController::class, 'updateRole']);
-    Route::post('{id}/delete', [AclController::class, 'deleteRole']);
+    Route::post('{id}/delete', [AclController::class, 'deleteRole'])->name('role.delete');
 });
 
 //Permissions
 Route::group(['prefix' => 'user/permission', 'middleware' => ['auth', 'role:Gymie']], function () {
-    Route::get('/', [AclController::class, 'permissionIndex']);
-    Route::get('create', [AclController::class, 'createPermission']);
+    Route::get('/', [AclController::class, 'permissionIndex'])->name('permission.index');
+    Route::get('create', [AclController::class, 'createPermission'])->name('permission.create');
     Route::post('/', [AclController::class, 'storePermission']);
-    Route::get('{id}/edit', [AclController::class, 'editPermission']);
-    Route::post('{id}/update', [AclController::class, 'updatePermission']);
+    Route::get('{id}/edit', [AclController::class, 'editPermission'])->name('permission.edit');
+    Route::post('{id}/update', [AclController::class, 'updatePermission'])->name('permission.update');
     Route::post('{id}/delete', [AclController::class, 'deletePermission'])->name('permission.delete');
 });

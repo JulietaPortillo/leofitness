@@ -1,3 +1,6 @@
+<?php
+use App\Http\Controllers\AclController;
+?>
 @extends('app')
 
 @section('content')
@@ -23,7 +26,7 @@
                             <div class="panel-head">Enter Details of the Permission</div>
                         </div>
 
-                        {!! Form::Open(['method' => 'POST','id' => 'permissionsform','action' => ['AclController@updatePermission',$permission->id]]) !!}
+                        {!! Form::open(['method' => 'POST', 'id' => 'permissionsform', 'route' => ['permission.update', $permission->id]]) !!}
 
                         <div class="panel-body">
                             <div class="row">

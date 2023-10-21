@@ -7,7 +7,7 @@
         <div class="page-head bg-grey-100">
             @include('flash::message')
             <h1 class="page-title">Roles</h1>
-            <a href="{{ action('AclController@createRole') }}" class="btn btn-primary active pull-right" role="button"> Add</a></h1>
+            <a href="{{ route('role.create') }}" class="btn btn-primary active pull-right" role="button"> Add</a></h1>
         </div>
 
         <div class="container-fluid">
@@ -44,7 +44,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li>
-                                                        <a href="{{ action('AclController@editRole',['id' => $role->id]) }}">
+                                                        <a href="{{ route('role.create',['id' => $role->id]) }}">
                                                             Edit details
                                                         </a>
                                                     </li>
@@ -70,7 +70,7 @@
                                                         <p>Are you sure you want to delete it?</p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        {!! Form::Open(['action'=>['AclController@deleteRole',$role->id],'method' => 'POST','id'=>'deleteform-'.$role->id]) !!}
+                                                        {!! Form::Open(['route'=>['role.delete',$role->id],'method' => 'POST','id'=>'deleteform-'.$role->id]) !!}
                                                         <input type="submit" class="btn btn-danger" value="Yes" id="btn-{{ $role->id }}"/>
                                                         <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                                                         {!! Form::Close() !!}

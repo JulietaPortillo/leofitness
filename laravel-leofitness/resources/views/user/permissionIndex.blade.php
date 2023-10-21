@@ -12,7 +12,8 @@ use App\Http\Controllers\AclController;
         <div class="page-head bg-grey-100">
             @include('flash::message')
             <h1 class="page-title">Permissions</h1>
-            <a href="{{ action([DashboardController::class, 'index']) }}" class="btn btn-primary active pull-right" role="button"> Add</a></h1>
+            <a href="{{ route('permission.create') }}" class="btn btn-primary active pull-right" role="button"> Add</a></h1>
+            
         </div>
 
         <div class="container-fluid">
@@ -41,7 +42,7 @@ use App\Http\Controllers\AclController;
                                         <td class="text-center">{{ $permission->description}}</td>
 
                                         <td class="text-center">
-                                            <a class="btn btn-info btn-sm" href="{{ action([AclController::class, 'editPermission'], ['id' => $permission->id]) }}">
+                                            <a class="btn btn-info btn-sm" href="{{ route('permission.edit', ['id' => $permission->id]) }}">
                                                 <i class="fa fa-edit "></i>
                                             </a>
                                             <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{$permission->id}}"

@@ -23,7 +23,7 @@
                             <div class="panel-head">Enter Details of the permission</div>
                         </div>
 
-                        {!! Form::Open(['url' => 'permission','id' => 'permissionsform','files'=>'true']) !!}
+                        {!! Form::Open(['url' => 'user/permission','id' => 'permissionsform','files'=>'true']) !!}
 
                         <div class="panel-body">
                             <div class="row">

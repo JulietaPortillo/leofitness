@@ -246,7 +246,7 @@ class AclController extends Controller
 
         flash()->success('Permission was successfully created');
 
-        return redirect('user/permission');
+        return redirect(route('permission.index'));
     }
 
     public function editPermission($id)
