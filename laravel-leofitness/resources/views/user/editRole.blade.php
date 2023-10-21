@@ -23,7 +23,7 @@
                             <div class="panel-head">Enter Details of the Role</div>
                         </div>
 
-                        {!! Form::Open(['method' => 'POST','id' => 'rolesform','action' => ['AclController@updateRole',$role->id]]) !!}
+                        {!! Form::Open(['method' => 'POST','id' => 'rolesform','route' => ['role.update',$role->id]]) !!}
 
                         <div class="panel-body">
                             <div class="row">

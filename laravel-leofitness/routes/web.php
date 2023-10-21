@@ -77,7 +77,7 @@ Route::group(['prefix' => 'user/role', 'middleware' => ['permission:manage-gymie
     Route::get('create', [AclController::class, 'createRole'])->name('role.create');
     Route::post('/', [AclController::class, 'storeRole']);
     Route::get('{id}/edit', [AclController::class, 'editRole'])->name('role.edit');
-    Route::post('{id}/update', [AclController::class, 'updateRole']);
+    Route::post('{id}/update', [AclController::class, 'updateRole'])->name('role.update');
     Route::post('{id}/delete', [AclController::class, 'deleteRole'])->name('role.delete');
 });
 

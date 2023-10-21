@@ -44,7 +44,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li>
-                                                        <a href="{{ route('role.create',['id' => $role->id]) }}">
+                                                        <a href="{{ route('role.edit',['id' => $role->id]) }}">
                                                             Edit details
                                                         </a>
                                                     </li>
