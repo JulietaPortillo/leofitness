@@ -3,6 +3,7 @@
 namespace App\Lubus;
 
 use Carbon\Carbon;
+use App\Models\Setting;
 class Utilities {
 public static function getGreeting() {
     //$time = date("H");
@@ -51,8 +52,33 @@ public static function setActiveMenu($uri, $isParent = false)
          return $settings_array;
      }
 
+      //Get invoice display name type
+    public static function getDisplay($display)
+    {
+        switch ($display) {
+        case 'gym_logo':
+            return 'Gym Logo';
+            break;
 
+        default:
+            return 'Gym Name';
+            break;
+    }
+    }
 
+     // Get Numbering mode
+     public static function getMode($mode)
+     {
+         switch ($mode) {
+         case '0':
+             return 'Manual';
+             break;
+ 
+         default:
+             return 'Automatic';
+             break;
+     }
+     }
+
+     
 }
-
-

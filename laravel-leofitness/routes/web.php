@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\AclController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Middleware\Authenticate;
 
 /*
@@ -89,4 +90,11 @@ Route::group(['prefix' => 'user/permission', 'middleware' => ['auth', 'role:Gymi
     Route::get('{id}/edit', [AclController::class, 'editPermission'])->name('permission.edit');
     Route::post('{id}/update', [AclController::class, 'updatePermission'])->name('permission.update');
     Route::post('{id}/delete', [AclController::class, 'deletePermission'])->name('permission.delete');
+});
+
+//settings
+Route::group(['prefix' => 'settings', 'middleware' => ['permission:manage-gymie|manage-settings', 'auth']], function () {
+    Route::get('/', [SettingsController::class, 'show'])->name('settings.show');
+    Route::get('edit', [SettingsController::class, 'edit'])->name('settings.edit');
+    Route::post('save', [SettingsController::class, 'save'])->name('settings.save');
 });
