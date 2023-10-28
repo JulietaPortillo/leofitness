@@ -247,7 +247,7 @@ class SubscriptionsController extends Controller
 
         // Javascript Variables
         JavaScript::put([
-            'taxes' => \Utilities::getSetting('taxes'),
+            'taxes' => Utilities::getSetting('taxes'),
             'gymieToday' => Carbon::today()->format('Y-m-d'),
             'servicesCount' => Service::count(),
             'currentServices' => $subscriptions->count(),
@@ -262,15 +262,15 @@ class SubscriptionsController extends Controller
         try {
             $subscription = Subscription::findOrFail($id);
 
-            $subscription->update(['status' => \constSubscription::cancelled]);
+            $subscription->update(['status' => Constants::cancelled]);
 
-            $subscription->member->update(['status' => \constStatus::InActive]);
+            $subscription->member->update(['status' => Constants::InActive]);
 
             DB::commit();
             flash()->success('Subscription was successfully cancelled');
 
             return redirect('subscriptions/expired');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Error while cancelling the Subscription');
 
@@ -319,7 +319,7 @@ class SubscriptionsController extends Controller
                                      ->sum('trn_payment_details.payment_amount');
 
         JavaScript::put([
-          'taxes' => \Utilities::getSetting('taxes'),
+          'taxes' => Utilities::getSetting('taxes'),
           'gymieToday' => Carbon::today()->format('Y-m-d'),
           'servicesCount' => Service::count(),
       ]);
@@ -335,19 +335,19 @@ class SubscriptionsController extends Controller
             DB::beginTransaction();
             //Helper function to set Payment status
             $invoice_total = $request->admission_amount + $request->subscription_amount + $request->taxes_amount - $request->discount_amount;
-            $paymentStatus = \constPaymentStatus::Unpaid;
+            $paymentStatus = Constants::Unpaid;
             $total_paid = $request->payment_amount + $request->previous_payment;
             $pending = $invoice_total - $total_paid;
 
             if ($request->mode == 1) {
                 if ($total_paid == $invoice_total) {
-                    $paymentStatus = \constPaymentStatus::Paid;
+                    $paymentStatus = Constants::Paid;
                 } elseif ($total_paid > 0 && $total_paid < $invoice_total) {
-                    $paymentStatus = \constPaymentStatus::Partial;
+                    $paymentStatus = Constants::Partial;
                 } elseif ($total_paid == 0) {
-                    $paymentStatus = \constPaymentStatus::Unpaid;
+                    $paymentStatus = Constants::Unpaid;
                 } else {
-                    $paymentStatus = \constPaymentStatus::Overpaid;
+                    $paymentStatus = Constants::Overpaid;
                 }
             }
 
@@ -366,7 +366,7 @@ class SubscriptionsController extends Controller
                 $subscription->update(['plan_id'=> $plan['id'],
                                         'start_date'=> $plan['start_date'],
                                         'end_date'=> $plan['end_date'],
-                                        'status'=> \constSubscription::onGoing,
+                                        'status'=> Constants::onGoing,
                                         'is_renewal'=>'0', ]);
 
                 //Adding subscription to invoice(Invoice Details)
@@ -391,7 +391,7 @@ class SubscriptionsController extends Controller
                 $chequeData = ['payment_id'=> $payment_details->id,
                                     'number'=> $request->number,
                                     'date'=> $request->date,
-                                    'status'=> \constChequeStatus::Recieved, ];
+                                    'status'=> Constants::Recieved, ];
 
                 $cheque_details = new ChequeDetail($chequeData);
                 $cheque_details->createdBy()->associate(Auth::user());
@@ -417,12 +417,12 @@ class SubscriptionsController extends Controller
     private function generateInvoiceNumber()
     {
         //Get Numbering mode
-        $invoiceNumberMode = \Utilities::getSetting('invoice_number_mode');
+        $invoiceNumberMode = Utilities::getSetting('invoice_number_mode');
 
         //Generating Invoice number
-        if ($invoiceNumberMode == \constNumberingMode::Auto) {
-            $invoiceCounter = \Utilities::getSetting('invoice_last_number') + 1;
-            $invoiceNumber = \Utilities::getSetting('invoice_prefix').$invoiceCounter;
+        if ($invoiceNumberMode == Constants::Auto) {
+            $invoiceCounter = Utilities::getSetting('invoice_last_number') + 1;
+            $invoiceNumber = Utilities::getSetting('invoice_prefix').$invoiceCounter;
         } else {
             $invoiceNumber = '';
             $invoiceCounter = '';
