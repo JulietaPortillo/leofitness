@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Lubus\Constants;
 
 class Member extends Model
 {
@@ -45,7 +46,16 @@ use HasFactory;
         return (new Carbon($value))->format('Y-m-d');
     }
 
-    // Media i.e. Image size conversion
+    //Relationships
+    public function subscriptions()
+    {
+        return $this->hasMany('App\Models\Subscription');
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany('App\Models\Invoice');
+    }
 
 
     //Scope Queries
@@ -80,7 +90,7 @@ use HasFactory;
 
     public function scopeInactive($query)
     {
-        return $query->where('status', '=', \constStatus::InActive);
+        return $query->where('status', '=', Constants::InActive);
     }
 
     public function scopeRecent($query)
@@ -90,7 +100,7 @@ use HasFactory;
 
     public function scopeBirthday($query)
     {
-        return $query->whereMonth('DOB', '=', Carbon::today()->month)->whereDay('DOB', '<', Carbon::today()->addDays(7))->whereDay('DOB', '>=', Carbon::today()->day)->where('status', '=', \constStatus::Active);
+        return $query->whereMonth('DOB', '=', Carbon::today()->month)->whereDay('DOB', '<', Carbon::today()->addDays(7))->whereDay('DOB', '>=', Carbon::today()->day)->where('status', '=', Constants::Active);
     }
 
     // Laravel issue: Workaroud Needed
