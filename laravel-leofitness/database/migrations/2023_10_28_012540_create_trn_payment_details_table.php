@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('mode', 50)->comment('1 = Cash , 0 = Cheque');
             $table->string('note', 50)->comment('misc. note');
             $table->timestamps();
-            $table->integer('created_by')->unsigned()->index('FK_trn_payment_details_mst_staff_2');
-            $table->integer('updated_by')->unsigned()->index('FK_trn_payment_details_mst_staff_3');
+            $table->bigInteger('created_by')->unsigned()->index('FK_trn_payment_details_mst_staff_2');
+            $table->bigInteger('updated_by')->unsigned()->index('FK_trn_payment_details_mst_staff_3');
         });
     }
 
