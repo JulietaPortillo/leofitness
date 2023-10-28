@@ -9,7 +9,7 @@
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                    <strong>Whoops!</strong> Hubo problemas con los detalles ingresados.<br><br>
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -22,7 +22,7 @@
                 <div class="col-md-12">
                     <div class="panel no-border">
                         <div class="panel-title">
-                            <div class="panel-head font-size-20">Enter details of the plan</div>
+                            <div class="panel-head font-size-20">Ingrese detalles del plan</div>
                         </div>
 
                         {!! Form::Open(['url' => 'plans','id'=>'plansform']) !!}

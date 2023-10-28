@@ -38,8 +38,7 @@ class MembersController extends Controller
     {
         DB::enableQueryLog();
         $members = Member::indexQuery($request->sort_field, $request->sort_direction)->search('"'.$request->input('search').'"')->paginate(10);
-        $queryLog = DB::getQueryLog();
-    dd($members);
+        //$queryLog = DB::getQueryLog();
         $count = $members->total();
 
         $drp_placeholder = $this->drpPlaceholder($request);

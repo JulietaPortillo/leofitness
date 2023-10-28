@@ -141,7 +141,7 @@ use App\Http\Controllers\AclController;
                         <li class="{{ Utilities::setActiveMenu('plans/create') }}"><a href="{{ route('plans.create') }}">Agregar un plan</a></li>
                         @endpermission
                         @permission(['manage-gymie','manage-services','view-service'])
-                        <li class="{{ Utilities::setActiveMenu('plans/services/all') }}"><a href="{{ route('services.all') }}">Servicios del Gimnacio</a>
+                        <li class="{{ Utilities::setActiveMenu('plans/services/all') }}"><a href="{{ route('services.all') }}">Servicios del Gimnasio</a>
                         </li>
                         @endpermission
                         @permission(['manage-gymie','manage-services','add-service'])
