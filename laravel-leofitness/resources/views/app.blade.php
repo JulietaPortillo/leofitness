@@ -73,6 +73,7 @@ use App\Http\Controllers\AclController;
                     <a>{{Auth::user()->name}}</a>
                 </div>
                 <a href="{{url('auth/logout')}}" class="button"><i class="ion-log-out"></i></a>
+                
             </div>
             <!-- END RPOFILE -->
             <!-- BEGIN NAV -->
@@ -84,17 +85,23 @@ use App\Http\Controllers\AclController;
                     </a>
                 </li>
 
-                @permission(['Administrador', 'manage-gymie'])
+                @permission(['manage-gymie','manage-members','view-member'])
                 <li class="nav-dropdown {{ Utilities::setActiveMenu('members*',true) }}">
                     <a href="#">
-                        <i class="ion-person-add"></i> <span>Miembros</span>
+                        <i class="ion-person-add"></i> <span>Members</span>
                     </a>
                     <ul>
-                        <li class="{{ Utilities::setActiveMenu('members/all') }}"><a>Todos los miembros</a></li>
-                        
+                        <li class="{{ Utilities::setActiveMenu('members/all') }}"><a href="{{ route('members.all') }}">All Members</a></li>
+                        @permission(['manage-gymie','manage-members','add-member'])
+                        <li class="{{ Utilities::setActiveMenu('members/create') }}"><a href="{{ route('members.create') }}">Add Member</a></li>
+                        @endpermission
+                        <li class="{{ Utilities::setActiveMenu('members/active') }}"><a href="{{ route('members.active') }}">Active Members</a></li>
+                        <li class="{{ Utilities::setActiveMenu('members/inactive') }}"><a href="{{ route('members.inactive') }}">Inactive Members</a>
+                        </li>
                     </ul>
                 </li>
                 @endpermission
+
                 @permission(['Administrador', 'manage-gymie'])
                 <li class="nav-dropdown {{ Utilities::setActiveMenu('user*',true) }}">
                     <a href="#">

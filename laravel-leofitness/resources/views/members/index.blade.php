@@ -1,3 +1,6 @@
+<?php
+use App\Controllers\MembersController;
+?>
 @extends('app')
 
 @section('content')
@@ -8,7 +11,7 @@
         <div class="page-head bg-grey-100 padding-top-15 no-padding-bottom">
             <h1 class="page-title no-line-height">Members
                 @permission(['manage-gymie','manage-members','add-member'])
-                <a href="{{ action('MembersController@create') }}" class="page-head-btn btn-sm btn-primary active" role="button">Add New</a>
+                <a href="{{ route('members.create') }}" class="page-head-btn btn-sm btn-primary active" role="button">Add New</a>
                 <small>Details of all gym members</small>
             </h1>
             @permission(['manage-gymie','pagehead-stats'])
@@ -84,7 +87,6 @@
                                 <table id="members" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th>Photo</th>
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>Contact</th>
@@ -103,13 +105,10 @@
                                         foreach ($subscriptions as $subscription) {
                                             $plansArray[] = $subscription->plan->plan_name;
                                         }
-                                        $images = $member->getMedia('profile');
-                                        $profileImage = ($images->isEmpty() ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=NA&w=50&h=50' : url($images[0]->getUrl('thumb')));
                                         ?>
-                                        <tr>
-                                            <td><a href="{{ action('MembersController@show',['id' => $member->id]) }}"><img src="{{ $profileImage }}"/></a></td>
-                                            <td><a href="{{ action('MembersController@show',['id' => $member->id]) }}">{{ $member->member_code}}</a></td>
-                                            <td><a href="{{ action('MembersController@show',['id' => $member->id]) }}">{{ $member->name}}</a></td>
+                                        <tr>                                        
+                                            <td><a href="{{ route('members.show',['id' => $member->id]) }}">{{ $member->member_code}}</a></td>
+                                            <td><a href="{{ route('members.show',['id' => $member->id]) }}">{{ $member->name}}</a></td>
                                             <td>{{ $member->contact}}</td>
                                             <td>{{ implode(",",$plansArray) }}</td>
                                             <td>{{ $member->created_at->format('Y-m-d')}}</td>
@@ -126,12 +125,12 @@
                                                     <ul class="dropdown-menu" role="menu">
                                                         <li>
                                                             @permission(['manage-gymie','manage-members','view-member'])
-                                                            <a href="{{ action('MembersController@show',['id' => $member->id]) }}">View details</a>
+                                                            <a href="{{ route('members.show',['id' => $member->id]) }}">View details</a>
                                                             @endpermission
                                                         </li>
                                                         <li>
                                                             @permission(['manage-gymie','manage-members','edit-member'])
-                                                            <a href="{{ action('MembersController@edit',['id' => $member->id]) }}">Edit details</a>
+                                                            <a href="{{ route('members.edit',['id' => $member->id]) }}">Edit details</a>
                                                             @endpermission
                                                         </li>
                                                         <li>

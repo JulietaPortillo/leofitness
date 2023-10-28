@@ -4,6 +4,12 @@ namespace App\Lubus;
 
 use Carbon\Carbon;
 use App\Models\Setting;
+use BaconQrCode\Encoder\QrCode;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Writer;
+use BaconQrCode\Renderer\Image\Png;
 class Utilities {
 public static function getGreeting() {
     //$time = date("H");
@@ -51,7 +57,7 @@ public static function setActiveMenu($uri, $isParent = false)
     // Get Setting
     public static function getSetting($key)
     {
-        $settingValue = Setting::where('key', '=', $key)->pluck('value');
+        $settingValue = Setting::where('key', '=', $key)->pluck('value')->first();
 
         return $settingValue;
     }
@@ -128,6 +134,30 @@ public static function setActiveMenu($uri, $isParent = false)
                 break;
         }
         }
+
+     // Get Gender
+     public static function getGender($gender)
+     {
+         switch ($gender) {
+         case 'm':
+             return 'Male';
+             break;
+ 
+         case 'f':
+             return 'Female';
+             break;
+     }
+    }
+
+    public static function generateQRCode($data)
+    {
+        $renderer = new ImageRenderer(
+            new RendererStyle(400),
+            new ImagickImageBackEnd()
+        );
+        $writer = new Writer($renderer);
+        $writer->writeFile('Hello World!', 'qrcode.png');
+    }
 
      
 }

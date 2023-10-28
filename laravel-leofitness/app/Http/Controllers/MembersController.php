@@ -17,6 +17,10 @@ use App\Models\PaymentDetail;
 use Illuminate\Http\Request;
 use App\Lubus\Constants;
 use App\Lubus\Utilities;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Writer;
 
 class MembersController extends Controller
 {
@@ -39,7 +43,8 @@ class MembersController extends Controller
 
         $request->flash();
 
-        return view('members.index', compact('members', 'count', 'drp_placeholder', 'old_sort'));
+        //return view('members.index', compact('members', 'count', 'drp_placeholder'));
+        return view('members.captcha');
     }
 
     public function active(Request $request)
@@ -51,7 +56,7 @@ class MembersController extends Controller
 
         $request->flash();
 
-        return view('members.active', compact('members', 'count', 'drp_placeholder', 'old_sort'));
+        return view('members.active', compact('members', 'count', 'drp_placeholder'));
     }
 
     public function inactive(Request $request)
@@ -87,12 +92,13 @@ class MembersController extends Controller
     public function create()
     {
         // For Tax calculation
-        JavaScript::put([
-            'taxes' => Utilities::getSetting('taxes'),
-            'gymieToday' => Carbon::today()->format('Y-m-d'),
-            'servicesCount' => Service::count(),
-        ]);
+        $taxes = Utilities::getSetting('taxes');
 
+
+        JavaScript::put([
+        'taxes' => $taxes,
+        'gymieToday' => Carbon::today()->format('Y-m-d'),
+        ]);
         //Get Numbering mode
         $invoice_number_mode = Utilities::getSetting('invoice_number_mode');
         $member_number_mode = Utilities::getSetting('member_number_mode');
@@ -157,9 +163,16 @@ class MembersController extends Controller
             $member = new Member($memberData);
             $member->createdBy()->associate(Auth::user());
             $member->updatedBy()->associate(Auth::user());
+            // Generate QR Code and save it as an image
+            $qrCodeText = "member_id:" . $member->id;
+            $qrCodePath = "qrcodes/member_" . $member->id . ".png"; // Path to store the QR code image
+            $this->generateQRCodeImage($qrCodeText, $qrCodePath);
+
+            // Update member record with QR code path
+            $member->qr_code_path = $qrCodePath;
             $member->save();
 
-
+            
             // Helper function for calculating payment status
             $invoice_total = $request->admission_amount + $request->subscription_amount + $request->taxes_amount - $request->discount_amount;
             $paymentStatus = Constants::Unpaid;
@@ -274,16 +287,20 @@ class MembersController extends Controller
                 $subscription->updated_at = $subscription->start_date;
                 $subscription->save();
             }
+            
 
             DB::commit();
             flash()->success('Member was successfully created');
-
-            return redirect(action('MembersController@show', ['id' => $member->id]));
+            
+            return redirect(route('members.show', ['id' => $member->id]));
         } catch (\Exception $e) {
             DB::rollback();
+            dd($e);
+            dd("reached here");
+            
             flash()->error('Error while creating the member');
 
-            return redirect(action('MembersController@index'));
+            return redirect(route('members.index'));
         }
     }
 
@@ -404,5 +421,19 @@ class MembersController extends Controller
         }
 
         return 'Select daterange filter';
+    }
+
+    private function generateQRCodeImage($text, $path)
+    {
+        $renderer = new ImageRenderer(
+            new RendererStyle(400),
+            new ImagickImageBackEnd()
+        );
+
+        $writer = new Writer($renderer);
+        $qrCode = $writer->writeString($text);
+
+        // Save the QR code as an image file
+        file_put_contents(public_path($path), $qrCode);
     }
 }

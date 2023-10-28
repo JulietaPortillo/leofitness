@@ -27,10 +27,6 @@ class Constants
     const StaffPhoto = '/assets/img/staff';
     const GymLogo = '/assets/img/gym';
 
-    const UserProfilePhoto = 'profile_';
-    const UserProofPhoto = 'proof_';
-    const StaffPhoto = 'staff_';
-// Payment status
     const Unpaid = 0;
     const Paid = 1;
     const Partial = 2;

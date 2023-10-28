@@ -1,3 +1,6 @@
+<?php
+use App\Lubus\Constants;
+?>
 <div class="row">
     <div class="col-md-12">
         <div class="panel no-border">
@@ -10,7 +13,7 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             {!! Form::label('invoice_number','Invoice Number') !!}
-                            {!! Form::text('invoice_number',$invoice_number,['class'=>'form-control', 'id' => 'invoice_number', ($invoice_number_mode == \constNumberingMode::Auto ? 'readonly' : '')]) !!}
+                            {!! Form::text('invoice_number',$invoice_number,['class'=>'form-control', 'id' => 'invoice_number', ($invoice_number_mode == Constants::Auto ? 'readonly' : '')]) !!}
                         </div>
                     </div>
 

@@ -12,6 +12,8 @@ use App\Http\Controllers\PlansController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\SubscriptionsController;
 use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\QRCodeScannerController;
 use App\Http\Middleware\Authenticate;
 
 /*
@@ -33,6 +35,8 @@ Route::get('/', function () {
 
 Route::get('/user', [UserController::class, 'show']);
 
+
+
 //Unauthenticated routes
 Route::name('login')->get('login', [AuthController::class, 'getLogin']);
 Route::name('members.active')->get('/members/active', [MembersController::class, 'active']);
@@ -52,17 +56,17 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 //MembersController
-Route::group(['prefix' => 'members', 'middleware' => ['auth']], function () {
-    Route::get('/', [MembersController::class, 'index']);
-    Route::get('all', [MembersController::class, 'index']);
+Route::group(['prefix' => 'members', 'middleware' => ['web']], function () {
+    Route::get('/', [MembersController::class, 'index'])->name('members.index');
+    Route::get('all', [MembersController::class, 'index'])->name('members.all');
     Route::get('active', [MembersController::class, 'active'])->name('members.active');
-    Route::get('inactive', [MembersController::class, 'inactive']);
-    Route::get('create', [MembersController::class, 'create']);
+    Route::get('inactive', [MembersController::class, 'inactive'])->name('members.inactive');
+    Route::get('create', [MembersController::class, 'create'])->name('members.create');
     Route::post('/', [MembersController::class, 'store']);
-    Route::get('{id}/show', [MembersController::class, 'show']);
-    Route::get('{id}/edit',  [MembersController::class, 'edit']);
+    Route::get('{id}/show', [MembersController::class, 'show'])->name('members.show');
+    Route::get('{id}/edit',  [MembersController::class, 'edit'])->name('members.edit');
     Route::post('{id}/update', [MembersController::class, 'update']);
-    Route::post('{id}/archive', [MembersController::class, 'archive']);
+    Route::post('{id}/archive', [MembersController::class, 'archive'])->name('members.archive');
     Route::get('{id}/transfer', ['middleware' => ['permission:manage-gymie|manage-enquiries|transfer-enquiry'], 'uses' => 'MembersController@transfer']);
 });
 
@@ -209,6 +213,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/payments', [PaymentsController::class, 'index'])->name('payments.index');
         Route::get('payments/all', [PaymentsController::class, 'index'])->name('payments.all');
         Route::get('payments/show', [PaymentsController::class, 'show'])->name('payments.show');
+        Route::get('/qrcode-scanner', [QRCodeScannerController::class, 'index'])->name('qrcode.scanner');
+        Route::post('/qrcode-scan', [QRCodeScannerController::class, 'scan'])->name('qrcode.scan');
     });
 
     Route::middleware(['permission:manage-gymie|manage-payments|add-payment'])->group(function () {

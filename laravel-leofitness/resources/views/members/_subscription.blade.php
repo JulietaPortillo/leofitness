@@ -30,7 +30,7 @@ use Carbon\Carbon;
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="form-group plan-id">
-                                <?php $plans = App\Plan::where('status', '=', '1')->get(); ?>
+                                <?php $plans = App\Models\Plan::where('status', '=', '1')->get(); ?>
 
                                 <select id="plan_0" name="plan[0][id]" class="form-control selectpicker show-tick show-menu-arrow childPlan"
                                         data-live-search="true" data-row-id="0">

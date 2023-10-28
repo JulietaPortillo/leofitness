@@ -15,13 +15,11 @@ return new class extends Migration
             $table->bigInteger('id', true)->comment('Unique Record Id for system');
             $table->string('member_code', 50)->unique('member_id')->comment('Unique member id for reference');
             $table->string('name', 50)->comment('member\'s name');
-            $table->string('photo', 50)->comment('member\'s photo');
             $table->date('DOB')->comment('member\'s date of birth');
             $table->string('email', 50)->unique('email')->comment('member\'s email id');
             $table->string('address', 200)->comment('member\'s address');
             $table->boolean('status')->comment('0 for inactive , 1 for active');
             $table->string('proof_name', 50)->comment('name of the proof provided by member');
-            $table->string('proof_photo', 50)->comment('photo of the proof');
             $table->char('gender', 50)->comment('member\'s gender');
             $table->string('contact', 11)->unique('contact')->comment('member\'s contact number');
             $table->string('emergency_contact', 11);

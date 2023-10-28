@@ -57,6 +57,16 @@ use HasFactory;
         return $this->hasMany('App\Models\Invoice');
     }
 
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
 
     //Scope Queries
 
@@ -74,10 +84,10 @@ use HasFactory;
         $sorting_direction = ($sorting_direction != null ? $sorting_direction : 'desc');
 
         if ($drp_start == null or $drp_end == null) {
-            return $query->select('members.id', 'members.member_code', 'members.name', 'members.contact', 'members.created_at', 'members.status')->where('members.status', '!=', \constStatus::Archive)->orderBy($sorting_field, $sorting_direction);
+            return $query->select('members.id', 'members.member_code', 'members.name', 'members.contact', 'members.created_at', 'members.status')->where('members.status', '!=', Constants::Archive)->orderBy($sorting_field, $sorting_direction);
         }
 
-        return $query->select('members.id', 'members.member_code', 'members.name', 'members.contact', 'members.created_at', 'members.status')->where('members.status', '!=', \constStatus::Archive)->whereBetween('members.created_at', [
+        return $query->select('members.id', 'members.member_code', 'members.name', 'members.contact', 'members.created_at', 'members.status')->where('members.status', '!=', Constants::Archive)->whereBetween('members.created_at', [
             $drp_start,
             $drp_end,
         ])->orderBy($sorting_field, $sorting_direction);
@@ -85,7 +95,7 @@ use HasFactory;
 
     public function scopeActive($query)
     {
-        return $query->where('status', '=', '1  ');
+        return $query->where('status', '=', Constants::Active);
     }
 
     public function scopeInactive($query)

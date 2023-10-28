@@ -16,7 +16,7 @@
                             <div class="panel-head font-size-20">Member Detail</div>
                             <div class="pull-right no-margin">
                                 @permission(['manage-gymie','manage-members','edit-member'])
-                                <a class="btn btn-primary" href="{{ action('MembersController@edit',['id' => $member->id]) }}">
+                                <a class="btn btn-primary" href="{{ route('members.edit',['id' => $member->id]) }}">
                                     <span>Edit</span>
                                 </a>
                                 @endpermission
@@ -41,7 +41,7 @@
                                                 <p>Are you sure you want to delete it?</p>
                                             </div>
                                             <div class="modal-footer">
-                                                {!! Form::Open(['action'=>['MembersController@archive',$member->id],'method' => 'POST','id'=>'archiveform-'.$member->id]) !!}
+                                                {!! Form::Open(['route'=>['members.archive',$member->id],'method' => 'POST','id'=>'archiveform-'.$member->id]) !!}
                                                 <input type="submit" class="btn btn-danger" value="Yes" id="btn-{{ $member->id }}"/>
                                                 <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                                                 {!! Form::Close() !!}
@@ -62,12 +62,8 @@
                                                 <div class="col-sm-4">
                                                     <label>&nbsp;</label>
                                                 </div>
-                                            </div>
-                                            <?php
-                                            $images = $member->getMedia('profile');
-                                            $profileImage = ($images->isEmpty() ? 'https://placeholdit.imgix.net/~text?txtsize=22&txt=NA&w=200&h=180' : url($images[0]->getUrl()));
-                                            ?>
-                                            <img class="AutoFitResponsive" src="{{ $profileImage }}"/>
+                                            </div>                            
+                                            
                                         </div>
 
 

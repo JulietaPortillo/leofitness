@@ -13,7 +13,7 @@ class Subscription extends Model
     use Eloquence;
     use createdByUser, updatedByUser;
 
-    protected $table = 'subscriptions';
+    protected $table = 'trn_subscriptions';
 
     protected $fillable = [
         'member_id',
