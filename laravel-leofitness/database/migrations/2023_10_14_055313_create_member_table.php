@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('members', function (Blueprint $table) {
-            $table->integer('id', true)->comment('Unique Record Id for system');
+            $table->bigInteger('id', true)->comment('Unique Record Id for system');
             $table->string('member_code', 50)->unique('member_id')->comment('Unique member id for reference');
             $table->string('name', 50)->comment('member\'s name');
             $table->string('photo', 50)->comment('member\'s photo');
@@ -31,8 +31,8 @@ return new class extends Migration
             $table->string('aim', 50);
             $table->string('source', 50);
             $table->timestamps();
-            $table->integer('created_by')->unsigned()->index('FK_members_users_1');
-            $table->integer('updated_by')->unsigned()->index('FK_members_users_2');
+            $table->bigInteger('created_by')->unsigned()->index('FK_members_users_1');
+            $table->bigInteger('updated_by')->unsigned()->index('FK_members_users_2');
         });
     }
 
