@@ -23,6 +23,23 @@ public static function getGreeting() {
     }
 }
 
+// Set invoice status
+public static function setInvoiceStatus($amount_due, $invoice_total)
+{
+    if ($amount_due == 0) {
+        $paymentStatus = Constants::Paid;
+    } elseif ($amount_due > 0 && $amount_due < $invoice_total) {
+        $paymentStatus = Constants::Partial;
+    } elseif ($amount_due == $invoice_total) {
+        $paymentStatus = Constants::Unpaid;
+    } else {
+        $paymentStatus = Constants::Overpaid;
+    }
+
+    return $paymentStatus;
+}
+
+
 public static function setActiveMenu($uri, $isParent = false)
     {
         $class = ($isParent) ? 'active open' : 'active';

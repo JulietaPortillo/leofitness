@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Models\Subscription;
 use App\Models\InvoiceDetail;
 use App\Models\PaymentDetail;
+use App\Models\ChequeDetail;
 use App\Lubus\Utilities;
 use Illuminate\Http\Request;
 
@@ -125,14 +126,14 @@ class InvoicesController extends Controller
 
         try {
             InvoiceDetail::where('invoice_id', $id)->delete();
-/*
+
             $payment_details = PaymentDetail::where('invoice_id', $id)->get();
 
             foreach ($payment_details as $payment_detail) {
                 ChequeDetail::where('payment_id', $payment_detail->id)->delete();
                 $payment_detail->delete();
             }
-*/
+
             Subscription::where('invoice_id', $id)->delete();
             Invoice::destroy($id);
 
@@ -171,7 +172,7 @@ class InvoicesController extends Controller
 
             $pending = $invoice_total - $already_paid;
 
-            $status = \Utilities::setInvoiceStatus($pending, $invoice_total);
+            $status = Utilities::setInvoiceStatus($pending, $invoice_total);
 
             Invoice::where('id', $id)->update(['invoice_number'=> $request->invoice_number,
                                          'total'=> $invoice_total,

@@ -6,17 +6,17 @@ use DB;
 use Auth;
 use App\Models\Member;
 use JavaScript;
-//use App\Enquiry;
-//use App\Invoice;
-//use App\Service;
-//use App\Setting;
+use App\Models\Invoice;
+use App\Models\Service;
+use App\Models\Setting;
 use Carbon\Carbon;
-//use App\SmsTrigger;
-//use App\ChequeDetail;
-//use App\Subscription;
-//use App\InvoiceDetail;
-//use App\PaymentDetail;
+use App\Models\ChequeDetail;
+use App\Models\Subscription;
+use App\Models\InvoiceDetail;
+use App\Models\PaymentDetail;
 use Illuminate\Http\Request;
+use App\Lubus\Constants;
+use App\Lubus\Utilities;
 
 class MembersController extends Controller
 {
@@ -31,46 +31,41 @@ class MembersController extends Controller
      * @return Response
      */
     public function index(Request $request)
-{
-    $members = Member::indexQuery($request->sort_field, $request->sort_direction, $request->drp_start, $request->drp_end)->search('"'.$request->input('search').'"')->paginate(10);
-    $count = $members->total();
+    {
+        $members = Member::indexQuery($request->sort_field, $request->sort_direction, $request->drp_start, $request->drp_end)->search('"'.$request->input('search').'"')->paginate(10);
+        $count = $members->total();
 
-    $drp_placeholder = $this->drpPlaceholder($request);
+        $drp_placeholder = $this->drpPlaceholder($request);
 
-    $request->flash();
+        $request->flash();
 
-    $old_sort = $request->sort_field;
+        return view('members.index', compact('members', 'count', 'drp_placeholder', 'old_sort'));
+    }
 
-    return view('members.index', compact('members', 'count', 'drp_placeholder', 'old_sort'));
-}
+    public function active(Request $request)
+    {
+        $members = Member::active($request->sort_field, $request->sort_direction, $request->drp_start, $request->drp_end)->search('"'.$request->input('search').'"')->paginate(10);
+        $count = $members->total();
 
-public function active(Request $request)
-{
-    $members = Member::active($request->sort_field, $request->sort_direction, $request->drp_start, $request->drp_end)->search('"'.$request->input('search').'"')->paginate(10);
-    $count = $members->total();
+        $drp_placeholder = $this->drpPlaceholder($request);
 
-    $drp_placeholder = $this->drpPlaceholder($request);
+        $request->flash();
 
-    $request->flash();
+        return view('members.active', compact('members', 'count', 'drp_placeholder', 'old_sort'));
+    }
 
-    $old_sort = $request->sort_field;
+    public function inactive(Request $request)
+    {
+        $members = Member::inactive($request->sort_field, $request->sort_direction, $request->drp_start, $request->drp_end)->search('"'.$request->input('search').'"')->paginate(10);
+        $count = $members->total();
 
-    return view('members.active', compact('members', 'count', 'drp_placeholder', 'old_sort'));
-}
+        $drp_placeholder = $this->drpPlaceholder($request);
 
-public function inactive(Request $request)
-{
-    $members = Member::inactive($request->sort_field, $request->sort_direction, $request->drp_start, $request->drp_end)->search('"'.$request->input('search').'"')->paginate(10);
-    $count = $members->total();
+        $request->flash();
 
-    $drp_placeholder = $this->drpPlaceholder($request);
+        return view('members.inactive', compact('members', 'count', 'drp_placeholder', 'old_sort'));
+    }
 
-    $request->flash();
-
-    $old_sort = $request->sort_field;
-
-    return view('members.inactive', compact('members', 'count', 'drp_placeholder', 'old_sort'));
-}
     /**
      * Display the specified resource.
      *
@@ -93,19 +88,19 @@ public function inactive(Request $request)
     {
         // For Tax calculation
         JavaScript::put([
-            'taxes' => \Utilities::getSetting('taxes'),
+            'taxes' => Utilities::getSetting('taxes'),
             'gymieToday' => Carbon::today()->format('Y-m-d'),
             'servicesCount' => Service::count(),
         ]);
 
         //Get Numbering mode
-        $invoice_number_mode = \Utilities::getSetting('invoice_number_mode');
-        $member_number_mode = \Utilities::getSetting('member_number_mode');
+        $invoice_number_mode = Utilities::getSetting('invoice_number_mode');
+        $member_number_mode = Utilities::getSetting('member_number_mode');
 
         //Generating Invoice number
-        if ($invoice_number_mode == \constNumberingMode::Auto) {
-            $invoiceCounter = \Utilities::getSetting('invoice_last_number') + 1;
-            $invoicePrefix = \Utilities::getSetting('invoice_prefix');
+        if ($invoice_number_mode == Constants::Auto) {
+            $invoiceCounter = Utilities::getSetting('invoice_last_number') + 1;
+            $invoicePrefix = Utilities::getSetting('invoice_prefix');
             $invoice_number = $invoicePrefix.$invoiceCounter;
         } else {
             $invoice_number = '';
@@ -113,9 +108,9 @@ public function inactive(Request $request)
         }
 
         //Generating Member Counter
-        if ($member_number_mode == \constNumberingMode::Auto) {
-            $memberCounter = \Utilities::getSetting('member_last_number') + 1;
-            $memberPrefix = \Utilities::getSetting('member_prefix');
+        if ($member_number_mode == Constants::Auto) {
+            $memberCounter = Utilities::getSetting('member_last_number') + 1;
+            $memberPrefix = Utilities::getSetting('member_prefix');
             $member_code = $memberPrefix.$memberCounter;
         } else {
             $member_code = '';
@@ -164,6 +159,122 @@ public function inactive(Request $request)
             $member->updatedBy()->associate(Auth::user());
             $member->save();
 
+
+            // Helper function for calculating payment status
+            $invoice_total = $request->admission_amount + $request->subscription_amount + $request->taxes_amount - $request->discount_amount;
+            $paymentStatus = Constants::Unpaid;
+            $pending = $invoice_total - $request->payment_amount;
+
+            if ($request->mode == 1) {
+                if ($request->payment_amount == $invoice_total) {
+                    $paymentStatus = Constants::Paid;
+                } elseif ($request->payment_amount > 0 && $request->payment_amount < $invoice_total) {
+                    $paymentStatus = Constants::Partial;
+                } elseif ($request->payment_amount == 0) {
+                    $paymentStatus = Constants::Unpaid;
+                } else {
+                    $paymentStatus = Constants::Overpaid;
+                }
+            }
+
+            // Storing Invoice
+            $invoiceData = ['invoice_number'=> $request->invoice_number,
+                                     'member_id'=> $member->id,
+                                     'total'=> $invoice_total,
+                                     'status'=> $paymentStatus,
+                                     'pending_amount'=> $pending,
+                                     'discount_amount'=> $request->discount_amount,
+                                     'discount_percent'=> $request->discount_percent,
+                                     'discount_note'=> $request->discount_note,
+                                     'tax'=> $request->taxes_amount,
+                                     'additional_fees'=> $request->additional_fees,
+                                     'note'=>' ', ];
+
+            $invoice = new Invoice($invoiceData);
+            $invoice->createdBy()->associate(Auth::user());
+            $invoice->updatedBy()->associate(Auth::user());
+            $invoice->save();
+
+            // Storing subscription
+            foreach ($request->plan as $plan) {
+                $subscriptionData = ['member_id'=> $member->id,
+                                            'invoice_id'=> $invoice->id,
+                                            'plan_id'=> $plan['id'],
+                                            'start_date'=> $plan['start_date'],
+                                            'end_date'=> $plan['end_date'],
+                                            'status'=> Constants::onGoing,
+                                            'is_renewal'=>'0', ];
+
+                $subscription = new Subscription($subscriptionData);
+                $subscription->createdBy()->associate(Auth::user());
+                $subscription->updatedBy()->associate(Auth::user());
+                $subscription->save();
+
+                //Adding subscription to invoice(Invoice Details)
+                $detailsData = ['invoice_id'=> $invoice->id,
+                                       'plan_id'=> $plan['id'],
+                                       'item_amount'=> $plan['price'], ];
+
+                $invoiceDetails = new InvoiceDetail($detailsData);
+                $invoiceDetails->createdBy()->associate(Auth::user());
+                $invoiceDetails->updatedBy()->associate(Auth::user());
+                $invoiceDetails->save();
+            }
+
+            // Store Payment Details
+            $paymentData = ['invoice_id'=> $invoice->id,
+                                     'payment_amount'=> $request->payment_amount,
+                                     'mode'=> $request->mode,
+                                     'note'=> ' ', ];
+
+            $paymentDetails = new PaymentDetail($paymentData);
+            $paymentDetails->createdBy()->associate(Auth::user());
+            $paymentDetails->updatedBy()->associate(Auth::user());
+            $paymentDetails->save();
+
+            if ($request->mode == 0) {
+                // Store Cheque Details
+                $chequeData = ['payment_id'=> $paymentDetails->id,
+                                      'number'=> $request->number,
+                                      'date'=> $request->date,
+                                      'status'=> Constants::Recieved, ];
+
+                $cheque_details = new ChequeDetail($chequeData);
+                $cheque_details->createdBy()->associate(Auth::user());
+                $cheque_details->updatedBy()->associate(Auth::user());
+                $cheque_details->save();
+            }
+
+            //Updating Numbering Counters
+            Setting::where('key', '=', 'invoice_last_number')->update(['value' => $request->invoiceCounter]);
+            Setting::where('key', '=', 'member_last_number')->update(['value' => $request->memberCounter]);
+
+           
+
+            if ($subscription->start_date < $member->created_at) {
+                $member->created_at = $subscription->start_date;
+                $member->updated_at = $subscription->start_date;
+                $member->save();
+
+                $invoice->created_at = $subscription->start_date;
+                $invoice->updated_at = $subscription->start_date;
+                $invoice->save();
+
+                foreach ($invoice->invoiceDetails as $invoiceDetail) {
+                    $invoiceDetail->created_at = $subscription->start_date;
+                    $invoiceDetail->updated_at = $subscription->start_date;
+                    $invoiceDetail->save();
+                }
+
+                $paymentDetails->created_at = $subscription->start_date;
+                $paymentDetails->updated_at = $subscription->start_date;
+                $paymentDetails->save();
+
+                $subscription->created_at = $subscription->start_date;
+                $subscription->updated_at = $subscription->start_date;
+                $subscription->save();
+            }
+
             DB::commit();
             flash()->success('Member was successfully created');
 
@@ -188,7 +299,7 @@ public function inactive(Request $request)
     public function edit($id)
     {
         $member = Member::findOrFail($id);
-        $member_number_mode = \Utilities::getSetting('member_number_mode');
+        $member_number_mode = Utilities::getSetting('member_number_mode');
         $member_code = $member->member_code;
 
         return view('members.edit', compact('member', 'member_number_mode', 'member_code'));
@@ -204,7 +315,7 @@ public function inactive(Request $request)
         $member = Member::findOrFail($id);
         $member->update($request->all());
 
-        
+
         $member->updatedBy()->associate(Auth::user());
         $member->save();
 
@@ -243,6 +354,43 @@ public function inactive(Request $request)
         $member->delete();
 
         return back();
+    }
+
+    public function transfer($id, Request $request)
+    {
+        // For Tax calculation
+        JavaScript::put([
+            'taxes' => Utilities::getSetting('taxes'),
+            'gymieToday' => Carbon::today()->format('Y-m-d'),
+            'servicesCount' => Service::count(),
+        ]);
+
+        //Get Numbering mode
+        $invoice_number_mode = Utilities::getSetting('invoice_number_mode');
+        $member_number_mode = Utilities::getSetting('member_number_mode');
+
+        //Generating Invoice number
+        if ($invoice_number_mode == Constants::Auto) {
+            $invoiceCounter = Utilities::getSetting('invoice_last_number') + 1;
+            $invoicePrefix = Utilities::getSetting('invoice_prefix');
+            $invoice_number = $invoicePrefix.$invoiceCounter;
+        } else {
+            $invoice_number = '';
+            $invoiceCounter = '';
+        }
+
+        //Generating Member Counter
+        if ($member_number_mode == Constants::Auto) {
+            $memberCounter = Utilities::getSetting('member_last_number') + 1;
+            $memberPrefix = Utilities::getSetting('member_prefix');
+            $member_code = $memberPrefix.$memberCounter;
+        } else {
+            $member_code = '';
+            $memberCounter = '';
+        }
+
+
+        return view('members.transfer', compact('invoice_number', 'invoiceCounter', 'member_code', 'memberCounter', 'member_number_mode', 'invoice_number_mode'));
     }
 
     /**
