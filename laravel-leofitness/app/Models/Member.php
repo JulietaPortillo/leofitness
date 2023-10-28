@@ -78,19 +78,18 @@ use HasFactory;
             }
         });
     }
-    public function scopeIndexQuery($query, $sorting_field, $sorting_direction, $drp_start, $drp_end)
+    public function scopeIndexQuery($query, $sorting_field, $sorting_direction)
     {
-        $sorting_field = ($sorting_field != null ? $sorting_field : 'created_at');
-        $sorting_direction = ($sorting_direction != null ? $sorting_direction : 'desc');
+        $sorting_field = $sorting_field ?: 'created_at';
+        $sorting_direction = $sorting_direction ?: 'desc';
+    
+        $query->with('subscriptions') // Eager load subscriptions relationship
+        ->select('id', 'member_code', 'name', 'contact', 'created_at', 'status')
+        ->where('status', '!=', Constants::Archive)
+        ->orderBy($sorting_field, $sorting_direction);
 
-        if ($drp_start == null or $drp_end == null) {
-            return $query->select('members.id', 'members.member_code', 'members.name', 'members.contact', 'members.created_at', 'members.status')->where('members.status', '!=', Constants::Archive)->orderBy($sorting_field, $sorting_direction);
-        }
-
-        return $query->select('members.id', 'members.member_code', 'members.name', 'members.contact', 'members.created_at', 'members.status')->where('members.status', '!=', Constants::Archive)->whereBetween('members.created_at', [
-            $drp_start,
-            $drp_end,
-        ])->orderBy($sorting_field, $sorting_direction);
+    
+        return $query;
     }
 
     public function scopeActive($query)

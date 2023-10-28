@@ -67,7 +67,7 @@ class PlansController extends Controller
 
         $plan->save();
 
-        flash()->success('Plan was successfully created');
+        flash()->success('Plan fue creado exitosamente');
 
         return redirect('plans');
     }
@@ -86,7 +86,7 @@ class PlansController extends Controller
         $plan->update($request->all());
         $plan->updatedBy()->associate(Auth::user());
         $plan->save();
-        flash()->success('Plan details were successfully updated');
+        flash()->success('Detalles del plan fueron actualizados exitosamente');
 
         return redirect('plans/all');
     }

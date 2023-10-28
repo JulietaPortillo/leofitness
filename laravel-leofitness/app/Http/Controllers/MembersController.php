@@ -36,15 +36,17 @@ class MembersController extends Controller
      */
     public function index(Request $request)
     {
-        $members = Member::indexQuery($request->sort_field, $request->sort_direction, $request->drp_start, $request->drp_end)->search('"'.$request->input('search').'"')->paginate(10);
+        DB::enableQueryLog();
+        $members = Member::indexQuery($request->sort_field, $request->sort_direction)->search('"'.$request->input('search').'"')->paginate(10);
+        $queryLog = DB::getQueryLog();
+    dd($members);
         $count = $members->total();
 
         $drp_placeholder = $this->drpPlaceholder($request);
 
         $request->flash();
 
-        //return view('members.index', compact('members', 'count', 'drp_placeholder'));
-        return view('members.captcha');
+        return view('members.index', compact('members', 'count', 'drp_placeholder'));
     }
 
     public function active(Request $request)
@@ -163,13 +165,6 @@ class MembersController extends Controller
             $member = new Member($memberData);
             $member->createdBy()->associate(Auth::user());
             $member->updatedBy()->associate(Auth::user());
-            // Generate QR Code and save it as an image
-            $qrCodeText = "member_id:" . $member->id;
-            $qrCodePath = "qrcodes/member_" . $member->id . ".png"; // Path to store the QR code image
-            $this->generateQRCodeImage($qrCodeText, $qrCodePath);
-
-            // Update member record with QR code path
-            $member->qr_code_path = $qrCodePath;
             $member->save();
 
             
@@ -423,6 +418,7 @@ class MembersController extends Controller
         return 'Select daterange filter';
     }
 
+    /*
     private function generateQRCodeImage($text, $path)
     {
         $renderer = new ImageRenderer(
@@ -436,4 +432,5 @@ class MembersController extends Controller
         // Save the QR code as an image file
         file_put_contents(public_path($path), $qrCode);
     }
+    */
 }

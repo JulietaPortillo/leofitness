@@ -9,17 +9,17 @@ use App\Controllers\MembersController;
 
         <!-- BEGIN PAGE HEADING -->
         <div class="page-head bg-grey-100 padding-top-15 no-padding-bottom">
-            <h1 class="page-title no-line-height">Members
+            <h1 class="page-title no-line-height">Miembros
                 @permission(['manage-gymie','manage-members','add-member'])
-                <a href="{{ route('members.create') }}" class="page-head-btn btn-sm btn-primary active" role="button">Add New</a>
-                <small>Details of all gym members</small>
+                <a href="{{ route('members.create') }}" class="page-head-btn btn-sm btn-primary active" role="button">Agregar nuevo</a>
+                <small>Detalles de los miembros</small>
             </h1>
             @permission(['manage-gymie','pagehead-stats'])
             <h1 class="font-size-30 text-right color-blue-grey-600 animated fadeInDown total-count pull-right"><span data-toggle="counter" data-start="0"
                                                                                                                      data-from="0" data-to="{{ $count }}"
                                                                                                                      data-speed="600"
                                                                                                                      data-refresh-interval="10"></span>
-                <small class="color-blue-grey-600 display-block margin-top-5 font-size-14">Total Members</small>
+                <small class="color-blue-grey-600 display-block margin-top-5 font-size-14">Cantidad total de miembros</small>
             </h1>
             @endpermission
             @endpermission
@@ -38,7 +38,7 @@ use App\Controllers\MembersController;
 
                                         <div class="col-sm-3">
 
-                                            {!! Form::label('member-daterangepicker','Date range') !!}
+                                            {!! Form::label('member-daterangepicker','Rango de fecha') !!}
 
                                             <div id="member-daterangepicker"
                                                  class="gymie-daterangepicker btn bg-grey-50 daterange-padding no-border color-grey-600 hidden-xs no-shadow">
@@ -52,24 +52,24 @@ use App\Controllers\MembersController;
                                         </div>
 
                                         <div class="col-sm-2">
-                                            {!! Form::label('sort_field','Sort By') !!}
-                                            {!! Form::select('sort_field',array('created_at' => 'Date','name' => 'Name', 'member_code' => 'Member code', 'status' => 'Status'),old('sort_field'),['class' => 'form-control selectpicker show-tick show-menu-arrow', 'id' => 'sort_field']) !!}
+                                            {!! Form::label('sort_field','Ordenar por') !!}
+                                            {!! Form::select('sort_field',array('created_at' => 'Fecha','name' => 'Nombre', 'member_code' => 'Codigo de miembre', 'status' => 'Status'),old('sort_field'),['class' => 'form-control selectpicker show-tick show-menu-arrow', 'id' => 'sort_field']) !!}
                                         </div>
 
                                         <div class="col-sm-2">
-                                            {!! Form::label('sort_direction','Order') !!}
-                                            {!! Form::select('sort_direction',array('desc' => 'Descending','asc' => 'Ascending'),old('sort_direction'),['class' => 'form-control selectpicker show-tick show-menu-arrow', 'id' => 'sort_direction']) !!}</span>
+                                            {!! Form::label('sort_direction','Orden') !!}
+                                            {!! Form::select('sort_direction',array('desc' => 'Decendiendo','asc' => 'Acendiendo'),old('sort_direction'),['class' => 'form-control selectpicker show-tick show-menu-arrow', 'id' => 'sort_direction']) !!}</span>
                                         </div>
 
                                         <div class="col-xs-3">
-                                            {!! Form::label('search','Keyword') !!}
+                                            {!! Form::label('search','Clave') !!}
                                             <input value="{{ old('search') }}" name="search" id="search" type="text" class="form-control padding-right-35"
-                                                   placeholder="Search...">
+                                                   placeholder="Buscar...">
                                         </div>
 
                                         <div class="col-xs-2">
                                             {!! Form::label('&nbsp;') !!} <br/>
-                                            <button type="submit" class="btn btn-primary active no-border">GO</button>
+                                            <button type="submit" class="btn btn-primary active no-border">Consultar</button>
                                         </div>
 
                                         {!! Form::Close() !!}
@@ -82,18 +82,18 @@ use App\Controllers\MembersController;
                         <div class="panel-body bg-white">
 
                             @if($members->count() == 0)
-                                <h4 class="text-center padding-top-15">Sorry! No records found</h4>
+                                <h4 class="text-center padding-top-15">Lo sentimos! No se encontraron records</h4>
                             @else
                                 <table id="members" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th>Code</th>
-                                        <th>Name</th>
-                                        <th>Contact</th>
-                                        <th>Plan name</th>
-                                        <th>Member since</th>
+                                        <th>Codigo</th>
+                                        <th>Nombre</th>
+                                        <th>Contacto</th>
+                                        <th>Nombre del plan</th>
+                                        <th>Miembro desde</th>
                                         <th>Status</th>
-                                        <th class="text-center">Actions</th>
+                                        <th class="text-center">Acciones</th>
                                     </tr>
                                     </thead>
 
@@ -117,7 +117,7 @@ use App\Controllers\MembersController;
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-info">Actions</button>
+                                                    <button type="button" class="btn btn-info">Acciones</button>
                                                     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                         <span class="caret"></span>
                                                         <span class="sr-only">Toggle Dropdown</span>
@@ -125,18 +125,18 @@ use App\Controllers\MembersController;
                                                     <ul class="dropdown-menu" role="menu">
                                                         <li>
                                                             @permission(['manage-gymie','manage-members','view-member'])
-                                                            <a href="{{ route('members.show',['id' => $member->id]) }}">View details</a>
+                                                            <a href="{{ route('members.show',['id' => $member->id]) }}">Ver detalles</a>
                                                             @endpermission
                                                         </li>
                                                         <li>
                                                             @permission(['manage-gymie','manage-members','edit-member'])
-                                                            <a href="{{ route('members.edit',['id' => $member->id]) }}">Edit details</a>
+                                                            <a href="{{ route('members.edit',['id' => $member->id]) }}">Editar detalles</a>
                                                             @endpermission
                                                         </li>
                                                         <li>
                                                             @permission(['manage-gymie','manage-members','delete-member'])
                                                             <a href="#" class="delete-record" data-delete-url="{{ url('members/'.$member->id.'/archive') }}"
-                                                               data-record-id="{{$member->id}}">Delete member</a>
+                                                               data-record-id="{{$member->id}}">Eliminar miembro</a>
                                                             @endpermission
                                                         </li>
                                                     </ul>

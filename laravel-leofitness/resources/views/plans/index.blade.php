@@ -6,10 +6,10 @@
         <!-- BEGIN PAGE HEADING -->
         <div class="page-head bg-grey-100 padding-top-15 no-padding-bottom">
             @include('flash::message')
-            <h1 class="page-title no-line-height">Plans
-                @permission(['manage-gymie','manage-plans','add-plan'])
-                <a href="{{ route('plans.create') }}" class="page-head-btn btn-sm btn-primary active" role="button">Add New</a>
-                <small>Details of all gym plans</small>
+            <h1 class="page-title no-line-height">Planes
+                @permission(['manage-gymie','manage-Planes','add-plan'])
+                <a href="{{ route('plans.create') }}" class="page-head-btn btn-sm btn-primary active" role="button">Agregar nuevo plan</a>
+                <small>Detalles de todos los planes</small>
             </h1>
             @permission(['manage-gymie','pagehead-stats'])
             <h1 class="font-size-30 text-right color-blue-grey-600 animated fadeInDown total-count pull-right">
@@ -17,7 +17,7 @@
                       data-from="0" data-to="{{ $count }}"
                       data-speed="600"
                       data-refresh-interval="10"></span>
-                <small class="color-blue-grey-600 display-block margin-top-5 font-size-14">Total Plans</small>
+                <small class="color-blue-grey-600 display-block margin-top-5 font-size-14">Cantidad total de planes</small>
             </h1>
             @endpermission
             @endpermission
@@ -33,7 +33,7 @@
                                 <div class="col-xs-12 col-md-3 pull-right">
                                     {!! Form::Open(['method' => 'GET']) !!}
                                     <div class="btn-inline pull-right">
-                                        <input name="search" id="search" type="text" class="form-control padding-right-35" placeholder="Search...">
+                                        <input name="search" id="search" type="text" class="form-control padding-right-35" placeholder="Buscar...">
                                         <button class="btn btn-link no-shadow bg-transparent no-padding-top padding-right-10" type="button">
                                             <i class="ion-search"></i></button>
                                     </div>
@@ -43,20 +43,20 @@
                             </div>
 
                             @if($plans->count() == 0)
-                                <h4 class="text-center padding-top-15">Sorry! No records found</h4>
+                                <h4 class="text-center padding-top-15">Lo siento! No se pudo encontrar.</h4>
                             @else
 
-                                <table id="plans" class="table table-bordered table-striped">
+                                <table id="Planes" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th>Plan Code</th>
-                                        <th>Plan Name</th>
-                                        <th>Service Name</th>
-                                        <th>Plan Details</th>
-                                        <th>Days</th>
-                                        <th>Amount</th>
+                                        <th>Codigo</th>
+                                        <th>Nombre de plan</th>
+                                        <th>Nombre de servicio</th>
+                                        <th>Detalles de plan</th>
+                                        <th>Dias</th>
+                                        <th>Cantidad</th>
                                         <th>Status</th>
-                                        <th class="text-center">Actions</th>
+                                        <th class="text-center">Acciones</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -74,16 +74,16 @@
 
                                             <td class="text-center">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-info">Actions</button>
+                                                    <button type="button" class="btn btn-info">Acciones</button>
                                                     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                         <span class="caret"></span>
                                                         <span class="sr-only">Toggle Dropdown</span>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
                                                         <li>
-                                                            @permission(['manage-gymie','manage-plans','edit-plan'])
+                                                            @permission(['manage-gymie','manage-Planes','edit-plan'])
                                                             <a href="{{ route('plans.edit',['id' => $plan->id]) }}">
-                                                                Edit details
+                                                                Editar detalles
                                                             </a>
                                                             @endpermission
                                                         </li>
@@ -104,7 +104,7 @@
                                 <div class="row">
                                     <div class="col-xs-6">
                                         <div class="gymie_paging_info">
-                                            Showing page {{ $plans->currentPage() }} of {{ $plans->lastPage() }}
+                                            Mostrando pagina {{ $plans->currentPage() }} de {{ $plans->lastPage() }}
                                         </div>
                                     </div>
 

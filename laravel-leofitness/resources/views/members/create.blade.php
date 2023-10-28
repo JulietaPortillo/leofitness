@@ -9,7 +9,7 @@
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                    <strong>Whoops!</strong> Hay errores en los datos introducidos.<br><br>
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -25,7 +25,7 @@
                 <div class="col-md-12">
                     <div class="panel no-border">
                         <div class="panel-title">
-                            <div class="panel-head font-size-20">Enter details of the member</div>
+                            <div class="panel-head font-size-20">Ingrese detalles del miembro</div>
                         </div>
                         <div class="panel-body">
                             @include('members.form')
@@ -49,7 +49,7 @@
                 <div class="row">
                     <div class="col-sm-2 pull-right">
                         <div class="form-group">
-                            {!! Form::submit('Create', ['class' => 'btn btn-primary pull-right']) !!}
+                            {!! Form::submit('Crear', ['class' => 'btn btn-primary pull-right']) !!}
                         </div>
                     </div>
                 </div>
