@@ -80,5 +80,37 @@ public static function setActiveMenu($uri, $isParent = false)
      }
      }
 
+     //Active-Inactive Labels
+    public static function getActiveInactive($status)
+    {
+        switch ($status) {
+        case '0':
+            return 'label label-danger';
+            break;
+
+        default:
+            return 'label label-primary';
+            break;
+    }
+    }
+
+        // Member Status
+        public static function getStatusValue($status)
+        {
+            switch ($status) {
+            case '0':
+                return 'Inactive';
+                break;
+    
+            case '2':
+                return 'Archived';
+                break;
+    
+            default:
+                return 'Active';
+                break;
+        }
+        }
+
      
 }

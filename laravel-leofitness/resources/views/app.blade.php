@@ -84,7 +84,7 @@ use App\Http\Controllers\AclController;
                     </a>
                 </li>
 
-                @permission('Administrador')
+                @permission(['Administrador', 'manage-gymie'])
                 <li class="nav-dropdown {{ Utilities::setActiveMenu('members*',true) }}">
                     <a href="#">
                         <i class="ion-person-add"></i> <span>Miembros</span>
@@ -95,7 +95,7 @@ use App\Http\Controllers\AclController;
                     </ul>
                 </li>
                 @endpermission
-                @permission('Administrador')
+                @permission(['Administrador', 'manage-gymie'])
                 <li class="nav-dropdown {{ Utilities::setActiveMenu('user*',true) }}">
                     <a href="#">
                         <i class="fa fa-users"></i> <span>Usuarios</span>
@@ -122,6 +122,30 @@ use App\Http\Controllers\AclController;
                     </a>
                 </li>
                 @endpermission
+
+                @permission(['manage-gymie','manage-plans','view-plan'])
+                <li class="nav-dropdown {{ Utilities::setActiveMenu('plans*',true) }}">
+                    <a href="#">
+                        <i class="ion-compose"></i> <span>Plans</span>
+                    </a>
+                    <ul>
+                        <li class="{{ Utilities::setActiveMenu('plans/all') }}"><a href="{{ route('plans.index') }}">All Plans</a></li>
+                        @permission(['manage-gymie','manage-plans','add-plan'])
+                        <li class="{{ Utilities::setActiveMenu('plans/create') }}"><a href="{{ route('plans.create') }}">Add Plan</a></li>
+                        @endpermission
+                        @permission(['manage-gymie','manage-services','view-service'])
+                        <li class="{{ Utilities::setActiveMenu('plans/services/all') }}"><a href="{{ route('services.all') }}">Gym Services</a>
+                        </li>
+                        @endpermission
+                        @permission(['manage-gymie','manage-services','add-service'])
+                        <li class="{{ Utilities::setActiveMenu('plans/services/create') }}"><a href="{{ route('services.create') }}">Add Service</a>
+                        </li>
+                        @endpermission
+                    </ul>
+                </li>
+                @endpermission
+
+
             </ul>
         </div>
     </div>

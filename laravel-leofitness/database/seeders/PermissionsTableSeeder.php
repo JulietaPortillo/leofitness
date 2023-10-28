@@ -28,6 +28,11 @@ class PermissionsTableSeeder extends Seeder
             'group_key' => 'Dashboard',
           ],
           [
+            'name' => 'manage-gymie',
+            'display_name' => 'Manage Gymie',
+            'group_key' => 'Global',
+          ],
+          [
             'name' => 'Dashboard-Graficos',
             'display_name' => 'Graficas',
             'group_key' => 'Dashboard',

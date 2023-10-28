@@ -2,11 +2,14 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MembersController;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\AclController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\PlansController;
+use App\Http\Controllers\ServicesController;
 use App\Http\Middleware\Authenticate;
 
 /*
@@ -93,8 +96,53 @@ Route::group(['prefix' => 'user/permission', 'middleware' => ['permission:Admini
 });
 
 //settings
-Route::group(['prefix' => 'settings', 'middleware' => ['permission:Administrador', 'auth']], function () {
+Route::middleware(['permission:manage-gymie|manage-settings', 'auth'])->prefix('settings')->group(function () {
     Route::get('/', [SettingsController::class, 'show'])->name('settings.show');
     Route::get('edit', [SettingsController::class, 'edit'])->name('settings.edit');
     Route::post('save', [SettingsController::class, 'save'])->name('settings.save');
 });
+
+
+// plans
+Route::middleware(['auth'])->prefix('plans')->group(function () {
+    Route::middleware(['permission:manage-gymie|manage-plans|view-plan'])->group(function () {
+        Route::get('/', [PlansController::class, 'index'])->name('plans.index');
+        Route::get('all', [PlansController::class, 'index'])->name('plans.all');
+        Route::get('show', [PlansController::class, 'show'])->name('plans.show');
+    });
+
+    Route::middleware(['permission:manage-gymie|manage-plans|add-plan'])->group(function () {
+        Route::get('create', [PlansController::class, 'create'])->name('plans.create');
+        Route::post('/', [PlansController::class, 'store']);
+    });
+
+    Route::middleware(['permission:manage-gymie|manage-plans|edit-plan'])->group(function () {
+        Route::get('{id}/edit', [PlansController::class, 'edit'])->name('plans.edit');
+        Route::post('{id}/update', [PlansController::class, 'update']);
+    });
+
+    Route::middleware(['permission:manage-gymie|manage-plans|delete-plan'])->group(function () {
+        Route::post('{id}/archive', [PlansController::class, 'archive']);
+    });
+
+    Route::middleware(['permission:manage-gymie|manage-services|view-service'])->group(function () {
+        Route::get('/services', [ServicesController::class, 'index'])->name('services.index');
+        Route::get('services/all', [ServicesController::class, 'index'])->name('services.all');
+    });
+
+    Route::middleware(['permission:manage-gymie|manage-services|add-service'])->group(function () {
+        Route::get('services/create', [ServicesController::class, 'create'])->name('services.create');
+        Route::post('/services', [ServicesController::class, 'store']);
+    });
+
+    Route::middleware(['permission:manage-gymie|manage-services|edit-service'])->group(function () {
+        Route::get('services/{id}/edit', [ServicesController::class, 'edit'])->name('services.edit');
+        Route::post('services/{id}/update', [ServicesController::class, 'update'])->name('services.update');
+    });
+
+    Route::middleware(['permission:manage-gymie|manage-services|delete-service'])->group(function () {
+        Route::post('services/{id}/delete', [ServicesController::class, 'delete']);
+    });
+});
+
+

@@ -15,6 +15,7 @@
         "mitchbred/entrust": "^2.3",
         "silber/bouncer": "^1.0",
         "sofa/eloquence": "^0.1.0",
+        "sofa/eloquence-base": "^7.1",
         "spatie/laravel-medialibrary": "^10.13"
     },
     "require-dev": {
